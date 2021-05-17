@@ -24,6 +24,7 @@ module.exports = new Command(['reply', 'r'], async (message, arguments, ctx) => 
       }
     }
   })
+  await message.delete()
   await message.channel.createMessage({
     content: '',
     embed: {
