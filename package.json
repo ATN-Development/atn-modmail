@@ -12,6 +12,7 @@
   "author": "NotReallyEight",
   "license": "ISC",
   "dependencies": {
-    "eris": "^0.15.1"
+    "eris": "^0.15.1",
+    "yuuko": "github:eritbh/yuuko#builds/arg-parsing"
   }
 }
