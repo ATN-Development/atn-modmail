@@ -22,7 +22,7 @@ client.addDir(path.join(__dirname, 'commands'))
 client.addDir(path.join(__dirname, 'events'))
 
 // Requiring server file to get the bot online 24/7 as I'm poor to get a decent host.
-require('./server')
+require('./server')()
 
 // Connecting to Discord.
 client.connect()
