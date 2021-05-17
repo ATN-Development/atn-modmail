@@ -24,5 +24,11 @@ client.addDir(path.join(__dirname, 'events'))
 // Requiring server file to get the bot online 24/7 as I'm poor to get a decent host.
 require('./server')()
 
+// Editing the status of the bot.
+client.editStatus('online', {
+  name: 'your ModMails!',
+  type: 2
+})
+
 // Connecting to Discord.
 client.connect()

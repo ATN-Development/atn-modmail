@@ -20,7 +20,7 @@ module.exports = new EventListener('messageCreate', async (message, ctx) => {
           type: 'role',
           deny: "1024"
         }, {
-          id: '843777521421254656',
+          id: '751475076322558044',
           type: 'role',
           allow: "1024"
         }
