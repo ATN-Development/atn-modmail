@@ -8,6 +8,7 @@ module.exports = new EventListener('messageCreate', async (message, ctx) => {
   let channel = guild.channels.find(ch => ch.name === message.author.username.toLowerCase().split(' ').join('-')) // Looks for the channel through the guild
   let logsChannel = guild.channels.find(lc => lc.id === '749302891012947988')
   if (message.author.bot) return // If the author of the message is a bot return
+  if (message.content.length > 2048) return message.addReaction('Cross1:843802407570112532')
   // If there's not a channel then we create one and send messages to the author and to the modmail.
   if (!channel) {
     let madeChannel = await guild.createChannel(message.author.username.split(' ').join('-'), 0, {

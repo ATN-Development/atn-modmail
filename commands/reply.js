@@ -31,7 +31,7 @@ module.exports = new Command(['reply', 'r'], async (message, arguments, ctx) => 
       title: message.author.username,
       description: arguments.join(' '),
       footer: {
-        text: 'Reply',
+        text: 'Staff Reply',
         icon_url: message.author.avatarURL
       }
     }
