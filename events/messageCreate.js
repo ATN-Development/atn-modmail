@@ -41,7 +41,7 @@ module.exports = new EventListener('messageCreate', async (message, ctx) => {
       content: '<@&772141547747541002>',
       embed: {
         title: 'New ModMail',
-        description: message.content,
+        description: `New modmail from ${message.author.mention}\nMessage: ${message.content}`,
         footer: {
           text: message.author.tag,
           icon_url: message.author.avatarURL
