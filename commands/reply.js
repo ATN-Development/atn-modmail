@@ -1,9 +1,10 @@
 const { Command } = require('yuuko')
+const { ModMailCategoryID, ModMailLogID, DefaultColor } = require('../config')
 
 // Exporting a new command that is useful for replying to users who actually write to modmail.
 module.exports = new Command(['reply', 'r'], async (message, arguments, ctx) => {
   // If the channel's category is not modmail one and if channel ID is logs channel ID, return an error message.
-  if (message.channel.parentID !== '749302890459430993' || message.channel.id === '749302891012947988') return message.channel.createMessage('Please use the command in a ModMail channel.')
+  if (message.channel.parentID !== ModMailCategoryID || message.channel.id === ModMailLogID) return message.channel.createMessage('Please use the command in a ModMail channel.')
   
 
   // Checks if there are enough arguments to reply a modmail. If there aren't any, return an error message.
@@ -13,18 +14,36 @@ module.exports = new Command(['reply', 'r'], async (message, arguments, ctx) => 
   let member = message.channel.guild.members.find(m => m.username.toLowerCase().split(' ').join('-') === message.channel.name)
   let user = ctx.client.users.get(member.id)
   let dm = await user.getDMChannel()
-  await dm.createMessage({
-    content: '',
-    embed: {
-      title: 'Staff Team',
-      description: arguments.join(' '),
-      color: 0xBEECCD,
-      footer: {
-        text: 'ATN Server Staff',
-        icon_url: message.channel.guild.iconURL
+  if (message.attachments.length > 0) {
+    await dm.createMessage({
+      content: '',
+      embed: {
+        title: 'Staff Team',
+        description: arguments.join(' '),
+        color: DefaultColor,
+        footer: {
+          text: message.channel.guild.name + ' Staff',
+          icon_url: message.channel.guild.iconURL
+        },
+        image: {
+          url: message.attachments[0].url
+        }
       }
-    }
-  })
+    })
+  } else {
+    await dm.createMessage({
+      content: '',
+      embed: {
+        title: 'Staff Team',
+        description: arguments.join(' '),
+        color: DefaultColor,
+        footer: {
+          text: message.channel.guild.name + ' Staff',
+          icon_url: message.channel.guild.iconURL
+        }
+      }
+    })
+  }
   await message.delete()
   await message.channel.createMessage({
     content: '',

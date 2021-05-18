@@ -1,26 +1,27 @@
 const { EventListener } = require('yuuko')
+const { GuildID, ModMailLogID, ModMailCategoryID, CrossEmoji, ModeratorRoleID, ModMailAutomaticMessage, DefaultColor, TickEmoji } = require('../config')
 
 // New messageCreate event listener to actually listen to DM messages and then create a modmail.
 module.exports = new EventListener('messageCreate', async (message, ctx) => {
   if (message.channel.type !== 1) return
 
-  let guild = ctx.client.guilds.find(g => g.id === '746291190009430049') // Looks for ATN Server by ID through the client
+  let guild = ctx.client.guilds.find(g => g.id === GuildID) // Looks for ATN Server by ID through the client
   let channel = guild.channels.find(ch => ch.name === message.author.username.toLowerCase().split(' ').join('-')) // Looks for the channel through the guild
-  let logsChannel = guild.channels.find(lc => lc.id === '749302891012947988')
+  let logsChannel = guild.channels.find(lc => lc.id === ModMailLogID)
   if (message.author.bot) return // If the author of the message is a bot return
-  if (message.content.length > 2048) return message.addReaction('Cross1:843802407570112532')
+  if (message.content.length > 2048) return message.addReaction(CrossEmoji)
   // If there's not a channel then we create one and send messages to the author and to the modmail.
   if (!channel) {
     let madeChannel = await guild.createChannel(message.author.username.split(' ').join('-'), 0, {
       nsfw: false,
-      parentID: '749302890459430993',
+      parentID: ModMailCategoryID,
       permissionOverwrites: [
         {
           id: guild.id,
           type: 'role',
           deny: "1024"
         }, {
-          id: '751475076322558044',
+          id: ModeratorRoleID,
           type: 'role',
           allow: "1024"
         }
@@ -30,10 +31,10 @@ module.exports = new EventListener('messageCreate', async (message, ctx) => {
       content: '',
       embed: {
         title: 'Modmail Automatic Message',
-        description: 'Hello, thanks for reaching ATN Server staff team!\nA staff member will reply as soon as possible.',
-        color: 0xBEECCD,
+        description: ModMailAutomaticMessage,
+        color: DefaultColor,
         footer: {
-          text: 'ATN Server Staff',
+          text: message.channel.guild.name + ' Staff',
           icon_url: guild.iconURL
         }
       }
@@ -113,5 +114,5 @@ module.exports = new EventListener('messageCreate', async (message, ctx) => {
       })
     }
   }
-  await message.addReaction('zx_tick_yes:843780958943838218')
+  await message.addReaction(TickEmoji)
 })

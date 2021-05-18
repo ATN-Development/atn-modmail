@@ -3,6 +3,7 @@ const Eris = require('eris')
 const fs = require('fs')
 const { Client } = require('yuuko')
 const path = require('path')
+require('dotenv').config()
 
 // Defining the client
 const client = new Client({
@@ -25,9 +26,9 @@ client.addDir(path.join(__dirname, 'events'))
 require('./server')()
 
 // Editing the status of the bot.
-client.editStatus('online', {
-  name: 'your ModMails!',
-  type: 2
+client.editStatus('online', { // Tip: Choose between online, idle, dnd or offline
+  name: 'your ModMails!', // The message that comes after watching, listening, or playing
+  type: 2 // The type of the status, read https://abal.moe/Eris/docs/Client#method-editStatus for more information
 })
 
 // Connecting to Discord.
