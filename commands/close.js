@@ -35,7 +35,14 @@ module.exports = new Command('close', async (message, arguments, ctx) => {
     }
   })
 }, {
-  guildOnly: true
+  guildOnly: true,
+  custom: async (message, arguments, ctx) => {
+    if (message.channel.type !== 1) {
+      return true
+    } else {
+      return false
+    }
+  }
 })
 
 module.exports.help = {

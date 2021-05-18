@@ -38,20 +38,39 @@ module.exports = new EventListener('messageCreate', async (message, ctx) => {
         }
       }
     })
-    await madeChannel.createMessage({
-      content: '<@&772141547747541002>',
-      embed: {
-        title: 'New ModMail',
-        description: `New modmail from ${message.author.mention}\nMessage: ${message.content}`,
-        footer: {
-          text: message.author.tag,
-          icon_url: message.author.avatarURL
+    // Look for message attachments, if none, send normal message instead of the message + message attachment.
+    if (message.attachments.length > 0) {
+      await madeChannel.createMessage({
+        content: '<@&772141547747541002>',
+        embed: {
+          title: 'New ModMail',
+          description: message.content,
+          footer: {
+            text: message.author.tag,
+            icon_url: message.author.avatarURL
+          },
+          image: {
+            url: message.attachments[0].url
+          }
         },
-      },
-      allowedMentions: {
-        roles: true
-      }
-    })
+        allowedMentions: true
+      })
+    } else {
+      await madeChannel.createMessage({
+        content: '<@&772141547747541002>',
+        embed: {
+          title: 'New ModMail',
+          description: message.content,
+          footer: {
+            text: message.author.tag,
+            icon_url: message.author.avatarURL
+          },
+        },
+        allowedMentions: {
+          roles: true
+        }
+      })
+    }
     await message.addReaction('zx_tick_yes:843780958943838218')
     await logsChannel.createMessage({
       content: '',
@@ -65,17 +84,34 @@ module.exports = new EventListener('messageCreate', async (message, ctx) => {
       }
     })
   } else {
-    await channel.createMessage({
-      content: '',
-      embed: {
-        title: message.author.username,
-        description: message.content,
-        footer: {
-          text: message.author.tag,
-          icon_url: message.author.avatarURL
-        },
-      }
-    })
+    if (message.attachments.length > 0) {
+      await channel.createMessage({
+        content: '',
+        embed: {
+          title: message.author.username,
+          description: message.content,
+          footer: {
+            text: message.author.tag,
+            icon_url: message.author.avatarURL
+          },
+          image: {
+            url: message.attachments[0].url
+          }
+        }
+      })
+    } else {
+      await channel.createMessage({
+        content: '',
+        embed: {
+          title: message.author.username,
+          description: message.content,
+          footer: {
+            text: message.author.tag,
+            icon_url: message.author.avatarURL
+          },
+        }
+      })
+    }
   }
   await message.addReaction('zx_tick_yes:843780958943838218')
 })

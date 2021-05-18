@@ -4,6 +4,7 @@ const { Command } = require('yuuko')
 module.exports = new Command(['reply', 'r'], async (message, arguments, ctx) => {
   // If the channel's category is not modmail one and if channel ID is logs channel ID, return an error message.
   if (message.channel.parentID !== '749302890459430993' || message.channel.id === '749302891012947988') return message.channel.createMessage('Please use the command in a ModMail channel.')
+  
 
   // Checks if there are enough arguments to reply a modmail. If there aren't any, return an error message.
   if (arguments.length < 1) return message.channel.createMessage('Please specify a text to send.')
@@ -37,7 +38,14 @@ module.exports = new Command(['reply', 'r'], async (message, arguments, ctx) => 
     }
   })
 }, {
-  guildOnly: true
+  guildOnly: true,
+  custom: async (message, arguments, ctx) => {
+    if (message.channel.type !== 1) {
+      return true
+    } else {
+      return false
+    }
+  }
 })
 
 module.exports.help = {
