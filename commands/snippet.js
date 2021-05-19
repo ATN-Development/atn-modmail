@@ -1,17 +1,16 @@
 const { Command } = require('yuuko')
-const { ModMailCategoryID, ModMailLogID, DefaultColor, Prefix } = require('../config')
+const { ModMailCategoryID, ModMailLogID, DefaultColor, Prefix, ModeratorRoleID } = require('../config')
 
 // This command is for snippets
 module.exports = new Command('snippet', async (message, arguments, ctx) => {
   if (arguments.length < 1) {
     // If the user isn't a helper at least, return.
-    if (!message.member.roles.includes('751475076322558044')) return message.channel.createMessage('You must be at least Helper to use this command.')
+    if (!message.member.roles.includes(ModeratorRoleID)) return message.channel.createMessage('You must be a Moderator to use this command.')
 
     snippetToSend = []
+    const snippetList = require('../snippets')
     for (const snippets in snippetList) {
-      if (arguments[0].toLowerCase() === snippets.toLowerCase()) {
-        snippetToSend.push(snippetList[snippets])
-      }
+      snippetToSend.push(snippets)
     }
     await message.channel.createMessage({
       content: '',

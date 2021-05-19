@@ -1,5 +1,5 @@
 const { EventListener } = require('yuuko')
-const { GuildID, ModMailLogID, ModMailCategoryID, CrossEmoji, ModeratorRoleID, ModMailAutomaticMessage, DefaultColor, TickEmoji } = require('../config')
+const { GuildID, ModMailLogID, ModMailCategoryID, CrossEmoji, ModeratorRoleID, ModMailAutomaticMessage, DefaultColor, TickEmoji, ModPingRoleID } = require('../config')
 
 // New messageCreate event listener to actually listen to DM messages and then create a modmail.
 module.exports = new EventListener('messageCreate', async (message, ctx) => {
@@ -34,7 +34,7 @@ module.exports = new EventListener('messageCreate', async (message, ctx) => {
         description: ModMailAutomaticMessage,
         color: DefaultColor,
         footer: {
-          text: message.channel.guild.name + ' Staff',
+          text: guild.name + ' Staff',
           icon_url: guild.iconURL
         }
       }
@@ -42,7 +42,7 @@ module.exports = new EventListener('messageCreate', async (message, ctx) => {
     // Look for message attachments, if none, send normal message instead of the message + message attachment.
     if (message.attachments.length > 0) {
       await madeChannel.createMessage({
-        content: '<@&772141547747541002>',
+        content: `<@&${ModPingRoleID}>`,
         embed: {
           title: 'New ModMail',
           description: message.content,
@@ -58,7 +58,7 @@ module.exports = new EventListener('messageCreate', async (message, ctx) => {
       })
     } else {
       await madeChannel.createMessage({
-        content: '<@&772141547747541002>',
+        content: `<@&${ModPingRoleID}>`,
         embed: {
           title: 'New ModMail',
           description: message.content,
@@ -72,7 +72,7 @@ module.exports = new EventListener('messageCreate', async (message, ctx) => {
         }
       })
     }
-    await message.addReaction('zx_tick_yes:843780958943838218')
+    await message.addReaction(TickEmoji)
     await logsChannel.createMessage({
       content: '',
       embed: {
