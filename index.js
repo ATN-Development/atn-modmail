@@ -3,7 +3,6 @@ const Eris = require('eris')
 const fs = require('fs')
 const { Client } = require('yuuko')
 const path = require('path')
-require('dotenv').config()
 
 // Defining the client
 const client = new Client({
@@ -21,9 +20,6 @@ const client = new Client({
 // Adding commands and events folder.
 client.addDir(path.join(__dirname, 'commands'))
 client.addDir(path.join(__dirname, 'events'))
-
-// Requiring server file to get the bot online 24/7 as I'm poor to get a decent host.
-require('./server')()
 
 // Editing the status of the bot.
 client.editStatus('online', { // Tip: Choose between online, idle, dnd or offline

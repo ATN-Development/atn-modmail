@@ -12,7 +12,6 @@
   "author": "NotReallyEight",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^9.0.2",
     "eris": "^0.15.1",
     "express": "^4.17.1",
     "yuuko": "github:eritbh/yuuko#builds/arg-parsing"

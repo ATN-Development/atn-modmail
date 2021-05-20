@@ -8,5 +8,6 @@ module.exports = {
   GuildID: 'GuildIDHere', // ID of the server where the bot should run in.
   CrossEmoji: 'EmojiNameHere:EmojiIDHere', // Example: Cross1:843802407570112532
   ModMailAutomaticMessage: 'MessageHere', // Example: Hello, thanks for reaching ATN Server staff team!\nA staff member will reply as soon as possible.
-  TickEmoji: 'EmojiNameHere:EmojiIDHere', // Example: zx_tick_yes:843780958943838218
+  TickEmoji: 'EmojiNameHere:EmojiIDHere', // Example: zx_tick_yes:843780958943838218,
+  Token: 'YourTokenHere', // Your token that you can get from https://discord.com/developers/applications
 }
