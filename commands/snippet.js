@@ -39,6 +39,14 @@ module.exports = new Command('snippet', async (message, arguments, ctx) => {
         snippetToSend = snippetList[snippets]
       }
     }
+
+    // If there aren't any snippets, return an error message.
+    if (snippetToSend.length < 1) {
+      await message.channel.createMessage("Please specify a valid snippet.")
+      return
+    }
+
+
     await dm.createMessage({
       content: '',
       embed: {
