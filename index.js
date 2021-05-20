@@ -3,6 +3,7 @@ const Eris = require('eris')
 const fs = require('fs')
 const { Client } = require('yuuko')
 const path = require('path')
+const { Prefix } = require('./config')
 
 // Defining the client
 const client = new Client({
@@ -13,7 +14,7 @@ const client = new Client({
   caseSensitivePrefix: false,
   getAllUsers: true,
   ignoreBots: true,
-  prefix: '=',
+  prefix: Prefix,
   token: process.env.TOKEN
 })
 
