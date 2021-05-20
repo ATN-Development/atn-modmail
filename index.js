@@ -3,7 +3,7 @@ const Eris = require('eris')
 const fs = require('fs')
 const { Client } = require('yuuko')
 const path = require('path')
-const { Prefix } = require('./config')
+const { Prefix, Token } = require('./config')
 
 // Defining the client
 const client = new Client({
@@ -15,7 +15,7 @@ const client = new Client({
   getAllUsers: true,
   ignoreBots: true,
   prefix: Prefix,
-  token: process.env.TOKEN
+  token: Token
 })
 
 // Adding commands and events folder.
