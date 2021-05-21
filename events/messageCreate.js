@@ -27,11 +27,12 @@ module.exports = new EventListener('messageCreate', async (message, ctx) => {
         }
       ]
     })
+    let description = ModMailAutomaticMessage.replace(new RegExp(/{{userid}}/, 'g'), message.author.id).replace(new RegExp(/{{usermention}}/, 'g'), message.author.mention).replace(new RegExp(/{{usertag}}/, 'g'), `${message.author.username}${message.author.discriminator}`)
     await message.channel.createMessage({
       content: '',
       embed: {
         title: 'Modmail Automatic Message',
-        description: ModMailAutomaticMessage,
+        description,
         color: DefaultColor,
         footer: {
           text: guild.name + ' Staff',
