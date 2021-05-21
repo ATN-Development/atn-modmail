@@ -31,7 +31,7 @@ module.exports = new EventListener('messageCreate', async (message, ctx) => {
       content: '',
       embed: {
         title: 'Modmail Automatic Message',
-        description: ModMailAutomaticMessage,
+        description: ModMailAutomaticMessage.replace(/{{userid}}/, message.author.id).replace(/{{usermention}}/, message.author.mention).replace(/{{usertag}}/, message.author.tag),
         color: DefaultColor,
         footer: {
           text: guild.name + ' Staff',

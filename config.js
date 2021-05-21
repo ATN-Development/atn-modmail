@@ -1,13 +1,26 @@
 module.exports = {
-  ModMailCategoryID: 'CategoryIDHere', // Copy the ID of the ModMail Log category and paste it between the ''. Example: ModMailCategoryID: '749302890459430993',
-  ModMailLogID: 'ModMailLogChannelIDHere', // Same as above but with logs channel ID.
-  ModeratorRoleID: 'ModeratorRoleIDHere', // Same as above but with the role you want that gets access to ModMails.
-  ModPingRoleID: 'ModPingRoleIDHere', // Same as above but with ModMail Ping role which will be notified whenever someone contacts the ModMail bot.
-  DefaultColor: 0xBEECCD, // Replace BEECCD with the HEX code of the color you would like.
-  Prefix: 'PrefixHere', // Prefix of the bot.
-  GuildID: 'GuildIDHere', // ID of the server where the bot should run in.
-  CrossEmoji: 'EmojiNameHere:EmojiIDHere', // Example: Cross1:843802407570112532
-  ModMailAutomaticMessage: 'MessageHere', // Example: Hello, thanks for reaching ATN Server staff team!\nA staff member will reply as soon as possible.
-  TickEmoji: 'EmojiNameHere:EmojiIDHere', // Example: zx_tick_yes:843780958943838218,
-  Token: 'YourTokenHere', // Your token that you can get from https://discord.com/developers/applications
+  /**
+   * @param {String} ModMailCategoryID - Copy the ID of the ModMail Log category and paste it between the ''.
+   * @param {String} ModMailLogID - Same as above but with logs channel ID.
+   * @param {String} ModeratorRoleID - Same as above but with the role you want that gets access to ModMails.
+   * @param {String} ModPingRoleID - Same as above but with ModMail Ping role which will be notified whenever someone contacts the ModMail bot.
+   * @param {BigInteger} DefaultColor - Replace BEECCD with the HEX code of the color you would like.
+   * @param {String} Prefix - Prefix of the bot.
+   * @param {String} GuildID - ID of the server where the bot should run in.
+   * @param {String} CrossEmoji - Emoji that means something went wrong.
+   * @param {String} ModMailAutomaticMessage - A string containing parameters: {{userid}}, {{usermention}}, {{usertag}}
+   * @param {String} TickEmoji - Emoji that means a message has been sent to ModMail channel.
+   * @param {String} Token - Your token that you can get from https://discord.com/developers/applications
+   */
+  ModMailCategoryID: 'CategoryIDHere',
+  ModMailLogID: 'ModMailLogChannelIDHere',
+  ModeratorRoleID: 'ModeratorRoleIDHere',
+  ModPingRoleID: 'ModPingRoleIDHere',
+  DefaultColor: 0xBEECCD,
+  Prefix: 'PrefixHere',
+  GuildID: 'GuildIDHere',
+  CrossEmoji: 'EmojiNameHere:EmojiIDHere',
+  ModMailAutomaticMessage: 'MessageHere',
+  TickEmoji: 'EmojiNameHere:EmojiIDHere',
+  Token: 'YourTokenHere',
 }
