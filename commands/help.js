@@ -1,5 +1,5 @@
 const { Command } = require('yuuko')
-const { Prefix } = require('../config')
+const { Prefix, DefaultColor } = require('../config')
 
 module.exports = new Command(['help', 'h'], async (message, arguments, ctx) => {
   // If there are no arguments returns a list of all commands.
@@ -11,7 +11,8 @@ module.exports = new Command(['help', 'h'], async (message, arguments, ctx) => {
       footer: {
         text: `Command ran by ${message.author.username}`,
         icon_url: message.author.avatarURL
-      }
+      },
+      color: DefaultColor
     }
     await message.channel.createMessage({
       content: '',
@@ -38,7 +39,8 @@ module.exports = new Command(['help', 'h'], async (message, arguments, ctx) => {
       footer: {
         text: `Command ran by ${message.author.username}`,
         icon_url: message.author.avatarURL
-      }
+      },
+      color: DefaultColor
     }
     await message.channel.createMessage({
       content: '',
