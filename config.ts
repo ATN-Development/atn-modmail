@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   /**
    * @param {String} ModMailCategoryID - Copy the ID of the ModMail Log category and paste it between the ''.
    * @param {String} ModMailLogID - Same as above but with logs channel ID.
@@ -12,15 +12,15 @@ module.exports = {
    * @param {String} TickEmoji - Emoji that means a message has been sent to ModMail channel.
    * @param {String} Token - Your token that you can get from https://discord.com/developers/applications
    */
-  ModMailCategoryID: 'CategoryIDHere',
-  ModMailLogID: 'ModMailLogChannelIDHere',
-  ModeratorRoleID: 'ModeratorRoleIDHere',
-  ModPingRoleID: 'ModPingRoleIDHere',
-  DefaultColor: 0xBEECCD,
-  Prefix: 'PrefixHere',
-  GuildID: 'GuildIDHere',
-  CrossEmoji: 'EmojiNameHere:EmojiIDHere',
-  ModMailAutomaticMessage: 'MessageHere',
-  TickEmoji: 'EmojiNameHere:EmojiIDHere',
-  Token: 'YourTokenHere',
-}
+  ModMailCategoryID: "868176083009290250",
+  ModMailLogID: "868176134452445264",
+  ModeratorRoleID: "775429222243762177",
+  ModPingRoleID: "852126695220838420",
+  DefaultColor: 0xbeeccd,
+  Prefix: "a",
+  GuildID: "768481503805964338",
+  CrossEmoji: "clipart2879349:868176356603752478",
+  ModMailAutomaticMessage: "hello",
+  TickEmoji: "clipart2879349:868176356603752478",
+  Token: "NzM5NTMzMzY3MTI4ODgzMjcx.Xyb2Hg.CAquL2hoFOoGdgiFRKKBIAmKLi0",
+};

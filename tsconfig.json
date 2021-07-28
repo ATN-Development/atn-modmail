@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowUnreachableCode": false,
+    "alwaysStrict": true,
+    "assumeChangesOnlyAffectDirectDependencies": true,
+    "checkJs": true,
+    "declaration": true,
+    "declarationDir": "./types",
+    "extendedDiagnostics": true,
+    "importHelpers": true,
+    "lib": ["ES2020", "DOM"],
+    "moduleResolution": "node",
+    "noEmitHelpers": true,
+    "noErrorTruncation": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "outDir": "dist",
+    "resolveJsonModule": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true
+  },
+  "extends": "@tsconfig/node16/tsconfig.json",
+  "include": [
+    "**/*"
+  ],
+  "exclude": ["node_modules", "dist", "types"]
+}
