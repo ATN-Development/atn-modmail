@@ -1,4 +1,3 @@
-
 <h1 align="center">
   <br>
   <a href="https://github.com/NotReallyEight/atn-modmail"><img src="https://cdn.roxy.eu.org/vv0yHxf.png" alt="ATN-MODMAIL"></a>
@@ -34,7 +33,7 @@
 </p>
 
 # Overview
-ATN ModMail is an open source ModMail bot made by Eight∞💔. This modmail is completely customizable and a very easy to use bot. It doesn't coding also except just configuring certain values.
+ATN ModMail is an open source ModMail bot made by Eight∞💔. This modmail is completely customizable and a very easy to use bot. It doesn't require coding knowledge also except just configuring certain values.
 
 [Installation](#installation) is also very easy. Configuring the bot with custom messages just requires basic variable assign knowledge.
 
@@ -45,7 +44,7 @@ ATN ModMail is an open source ModMail bot made by Eight∞💔. This modmail is 
 - Customizable Open and Close Ticket Messages
 
 # Installation
-Configure the bot settings by making changes in `config.js` . After configuring, type in `npm install && node index.js`in command line window where **location must be the bot directory**.
+Configure the bot settings by making changes in `config.ts` . After configuring, type in `npm run start`in command line window where **location must be the bot directory**.
 
 If you still experience issues, feel free to join the [Discord Server](https://discord.gg/esTfFnEENS) and ask for help.
 
@@ -59,6 +58,5 @@ Join us on our [Official Discord Server](https://discord.gg/esTfFnEENS)!
 # License
 
 Released under the [GNU GPL v3](https://www.gnu.org/licenses/gpl-3.0.en.html) license.
-
 
 
