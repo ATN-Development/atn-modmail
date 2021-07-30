@@ -60,7 +60,13 @@ export default new Command(
       await dm?.createMessage({
         embed: {
           title: "Staff Team",
-          description: snippetToSend,
+          description: snippetToSend
+            .replace(new RegExp(/{{userid}}/, "g"), user?.id ?? "")
+            .replace(new RegExp(/{{usermention}}/, "g"), user?.mention ?? "")
+            .replace(
+              new RegExp(/{{usertag}}/, "g"),
+              `${user?.username}${user?.discriminator}`
+            ),
           color: config.DefaultColor,
           footer: {
             text:
@@ -77,7 +83,13 @@ export default new Command(
       await message.channel.createMessage({
         embed: {
           title: message.author.username,
-          description: snippetToSend,
+          description: snippetToSend
+            .replace(new RegExp(/{{userid}}/, "g"), user?.id ?? "")
+            .replace(new RegExp(/{{usermention}}/, "g"), user?.mention ?? "")
+            .replace(
+              new RegExp(/{{usertag}}/, "g"),
+              `${user?.username}${user?.discriminator}`
+            ),
           footer: {
             text: "Staff Reply",
             icon_url: message.author.avatarURL,
