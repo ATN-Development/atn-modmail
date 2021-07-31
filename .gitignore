@@ -1,5 +1,5 @@
+.gitignore
+config.ts
 node_modules/
 dist/
 types/
-.gitignore
-config.ts
