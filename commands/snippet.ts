@@ -2,6 +2,8 @@ import config from "../config";
 import { Command } from "../utils/Command";
 import snippets from "../snippets";
 import Eris from "eris";
+import fs from "fs";
+import path from "path";
 
 export default new Command(
   "snippet",
@@ -57,16 +59,18 @@ export default new Command(
         return;
       }
 
+      fs.appendFile(
+        path.join(__dirname, "..", "transcripts", `${user?.id}.txt`),
+        `\n${message.author.username}${message.author.discriminator}: ${snippetToSend}`,
+        (err) => {
+          if (err) throw err;
+        }
+      );
+
       await dm?.createMessage({
         embed: {
           title: "Staff Team",
-          description: snippetToSend
-            .replace(new RegExp(/{{userid}}/, "g"), user?.id ?? "")
-            .replace(new RegExp(/{{usermention}}/, "g"), user?.mention ?? "")
-            .replace(
-              new RegExp(/{{usertag}}/, "g"),
-              `${user?.username}${user?.discriminator}`
-            ),
+          description: snippetToSend,
           color: config.DefaultColor,
           footer: {
             text:
@@ -83,13 +87,7 @@ export default new Command(
       await message.channel.createMessage({
         embed: {
           title: message.author.username,
-          description: snippetToSend
-            .replace(new RegExp(/{{userid}}/, "g"), user?.id ?? "")
-            .replace(new RegExp(/{{usermention}}/, "g"), user?.mention ?? "")
-            .replace(
-              new RegExp(/{{usertag}}/, "g"),
-              `${user?.username}${user?.discriminator}`
-            ),
+          description: snippetToSend,
           footer: {
             text: "Staff Reply",
             icon_url: message.author.avatarURL,
