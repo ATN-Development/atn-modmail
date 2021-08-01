@@ -57,7 +57,9 @@ export default new Command(
 
     const transcriptURL = await client.postTranscript(content.toString());
 
-    let webhooks = await (logsChannel as Eris.GuildTextableChannel).getWebhooks();
+    let webhooks = await (
+      logsChannel as Eris.GuildTextableChannel
+    ).getWebhooks();
 
     if (!webhooks[0]) {
       const createdWebhook = await (
