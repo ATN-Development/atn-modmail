@@ -44,7 +44,7 @@ ATN ModMail is an open source ModMail bot made by Eight∞💔. This modmail is 
 - Customizable Open and Close Ticket Messages
 
 # Installation
-Configure the bot settings by making changes in `config.example.ts` . After configuring, change the file name to `config.ts` and then type in `npm run start`in command line window where **location must be the bot directory**.
+Configure the bot settings by making changes in `config.example.ts` and `snippets.example.ts`. After configuring, change the file names to `config.ts` and `snippets.ts` and then type in `npm run start`in command line window where **location must be the bot directory**.
 
 If you still experience issues, feel free to join the [Discord Server](https://discord.gg/esTfFnEENS) and ask for help.
 
