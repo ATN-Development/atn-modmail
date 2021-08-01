@@ -1,5 +1,6 @@
 .gitignore
 config.ts
+snippets.ts
 node_modules/
 dist/
 types/
