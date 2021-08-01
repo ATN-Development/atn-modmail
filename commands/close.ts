@@ -57,15 +57,36 @@ export default new Command(
 
     const transcriptURL = await client.postTranscript(content.toString());
 
-    await (logsChannel as Eris.GuildTextableChannel).createMessage({
-      embed: {
-        title: "ModMail Closed",
-        description: `Opened by ${member?.username}\nTranscript URL: ${transcriptURL}`,
-        footer: {
-          text: message.author.username,
-          icon_url: message.author.avatarURL,
-        },
+    let webhooks = await (logsChannel as Eris.GuildTextableChannel).getWebhooks();
+
+    if (!webhooks[0]) {
+      const createdWebhook = await (
+        logsChannel as Eris.GuildTextableChannel
+      ).createWebhook({
+        avatar: Buffer.from(
+          (message.channel as Eris.GuildTextableChannel).guild?.iconURL ?? ""
+        ).toString("base64"),
+        name: "ModMail Logs",
+      });
+      webhooks.push(createdWebhook);
+    }
+    await client.executeWebhook(webhooks[0].id, webhooks[0].token, {
+      allowedMentions: {
+        everyone: false,
+        roles: false,
+        users: false,
       },
+      avatarURL: message.author.avatarURL,
+      embeds: [
+        {
+          title: "ModMail Closed",
+          description: `Opened by ${member?.username}\nTranscript URL: ${transcriptURL}`,
+          footer: {
+            text: message.author.username,
+            icon_url: message.author.avatarURL,
+          },
+        },
+      ],
     });
   },
   {

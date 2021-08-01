@@ -1,6 +1,6 @@
 import { Event } from "../utils/Event";
 import config from "../config";
-import { TextableChannel, TextChannel } from "eris";
+import { GuildTextableChannel, TextableChannel, TextChannel } from "eris";
 import fs from "fs";
 import path from "path";
 
@@ -115,15 +115,37 @@ export default new Event("messageCreate", async (message, client) => {
     }
 
     await message.addReaction(config.TickEmoji);
-    await (logsChannel as TextableChannel).createMessage({
-      embed: {
-        title: "ModMail Created",
-        description: `Opened by ${message.author.username}`,
-        footer: {
-          text: message.author.username,
-          icon_url: message.author.avatarURL,
-        },
+
+    let webhooks = await (logsChannel as GuildTextableChannel).getWebhooks();
+
+    if (!webhooks[0]) {
+      const createdWebhook = await (
+        logsChannel as GuildTextableChannel
+      ).createWebhook({
+        avatar: Buffer.from(
+          (message.channel as GuildTextableChannel).guild?.iconURL ?? ""
+        ).toString("base64"),
+        name: "ModMail Logs",
+      });
+      webhooks.push(createdWebhook);
+    }
+    await client.executeWebhook(webhooks[0].id, webhooks[0].token, {
+      allowedMentions: {
+        everyone: false,
+        roles: false,
+        users: false,
       },
+      avatarURL: message.author.avatarURL,
+      embeds: [
+        {
+          title: "ModMail Created",
+          description: `Opened by ${message.author.username}`,
+          footer: {
+            text: message.author.username,
+            icon_url: message.author.avatarURL,
+          },
+        },
+      ],
     });
   } else {
     if (message.attachments.length > 0) {
