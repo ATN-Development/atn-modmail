@@ -1,6 +1,8 @@
 import { Command } from "../utils/Command";
 import config from "../config";
 import Eris from "eris";
+import fs from "fs";
+import path from "path";
 
 export default new Command(
   "close",
@@ -44,10 +46,21 @@ export default new Command(
     });
 
     await (message.channel as Eris.GuildTextableChannel).delete();
+
+    const content = fs.readFileSync(
+      path.join(__dirname, "..", "transcripts", `${member?.id}.txt`)
+    );
+
+    fs.unlinkSync(
+      path.join(__dirname, "..", "transcripts", `${member?.id}.txt`)
+    );
+
+    const transcriptURL = await client.postTranscript(content.toString());
+
     await (logsChannel as Eris.GuildTextableChannel).createMessage({
       embed: {
         title: "ModMail Closed",
-        description: `Opened by ${member?.username}`,
+        description: `Opened by ${member?.username}\nTranscript URL: ${transcriptURL}`,
         footer: {
           text: message.author.username,
           icon_url: message.author.avatarURL,

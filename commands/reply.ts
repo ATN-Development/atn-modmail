@@ -1,6 +1,8 @@
 import Eris from "eris";
 import config from "../config";
 import { Command } from "../utils/Command";
+import fs from "fs";
+import path from "path";
 
 export default new Command(
   ["reply", "r"],
@@ -13,6 +15,17 @@ export default new Command(
     const user = client.users.get(member?.id ?? "");
     const dm = await user?.getDMChannel();
     if (message.attachments.length > 0) {
+      fs.appendFile(
+        path.join(__dirname, "..", "transcripts", `${user?.id}.txt`),
+        `\n${message.author.username}${
+          message.author.discriminator
+        }: ${args.join(" ")}\nMessage attachments: ${
+          message.attachments[0].url
+        }`,
+        (err) => {
+          if (err) throw err;
+        }
+      );
       await dm?.createMessage({
         embed: {
           title: "Staff Team",
@@ -32,6 +45,15 @@ export default new Command(
         },
       });
     } else {
+      fs.appendFile(
+        path.join(__dirname, "..", "transcripts", `${user?.id}.txt`),
+        `\n${message.author.username}${
+          message.author.discriminator
+        }: ${args.join(" ")}`,
+        (err) => {
+          if (err) throw err;
+        }
+      );
       await dm?.createMessage({
         embed: {
           title: "Staff Team",

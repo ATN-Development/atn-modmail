@@ -2,8 +2,9 @@
 
 import Eris from "eris";
 import { readdirSync } from "fs";
-import pathpkg from "path";
+import pathPackage from "path";
 import { Command } from "./Command";
+import axios from "axios";
 
 export interface ClientOptions extends Eris.ClientOptions {
   prefix: string;
@@ -28,7 +29,7 @@ export class Client extends Eris.Client {
     const eventFiles = readdirSync(path);
 
     for (const file of eventFiles) {
-      let event = require(pathpkg.join(path, file));
+      let event = require(pathPackage.join(path, file));
       if (event.default) {
         event = Object.assign(event.default, event);
         delete event.default;
@@ -49,7 +50,7 @@ export class Client extends Eris.Client {
     const commandFiles = readdirSync(path);
 
     for (const file of commandFiles) {
-      let command = require(pathpkg.join(path, file));
+      let command = require(pathPackage.join(path, file));
       if (command.default) {
         command = Object.assign(command.default, command);
         delete command.default;
@@ -110,21 +111,29 @@ export class Client extends Eris.Client {
   async processCommand(message: any): Promise<boolean> {
     const commandInformation = await this.hasCommand(message);
     if (!commandInformation) return false;
-    const [prefix, commandName, ...args] = commandInformation;
-
-    // Placeholder because errors otherwise...
-    prefix;
+    const [_prefix, commandName, ...args] = commandInformation;
 
     const command =
       this.commands.find((c) => c.names.includes(commandName)) || null;
 
     if (!command) {
-      console.log("Invalid Command!");
       return false;
     }
 
     await command.execute(message, args, this);
 
     return true;
+  }
+
+  async postTranscript(content: string): Promise<string> {
+    if (!content) throw new Error("Please specify a valid content.");
+
+    const result = await axios({
+      url: "https://dumpz.org/api/dump",
+      method: "POST",
+      data: content,
+    });
+
+    return result.data.url;
   }
 }

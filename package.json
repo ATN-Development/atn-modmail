@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@types/node": "^16.4.7",
+    "axios": "^0.21.1",
     "eris": "^0.15.1"
   }
 }

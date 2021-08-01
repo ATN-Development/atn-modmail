@@ -1,6 +1,8 @@
 import { Event } from "../utils/Event";
 import config from "../config";
 import { TextableChannel, TextChannel } from "eris";
+import fs from "fs";
+import path from "path";
 
 export default new Event("messageCreate", async (message, client) => {
   if ((message.channel as TextableChannel).type !== 1) return;
@@ -81,6 +83,13 @@ export default new Event("messageCreate", async (message, client) => {
           users: false,
         },
       });
+      fs.appendFile(
+        path.join(__dirname, "..", "transcripts", `${message.author.id}.txt`),
+        `${message.author.username}${message.author.discriminator}: ${message.content}\nMessage attachments: ${message.attachments[0].url}`,
+        (err) => {
+          if (err) throw err;
+        }
+      );
     } else {
       await madeChannel?.createMessage({
         content: `<@&${config.ModPingRoleID}>`,
@@ -96,6 +105,13 @@ export default new Event("messageCreate", async (message, client) => {
           roles: true,
         },
       });
+      fs.appendFile(
+        path.join(__dirname, "..", "transcripts", `${message.author.id}.txt`),
+        `${message.author.username}${message.author.discriminator}: ${message.content}`,
+        (err) => {
+          if (err) throw err;
+        }
+      );
     }
 
     await message.addReaction(config.TickEmoji);
@@ -124,6 +140,13 @@ export default new Event("messageCreate", async (message, client) => {
           },
         },
       });
+      fs.appendFile(
+        path.join(__dirname, "..", "transcripts", `${message.author.id}.txt`),
+        `\n${message.author.username}${message.author.discriminator}: ${message.content}\nMessage attachments: ${message.attachments[0].url}`,
+        (err) => {
+          if (err) throw err;
+        }
+      );
     } else {
       await (channel as TextableChannel).createMessage({
         embed: {
@@ -135,6 +158,13 @@ export default new Event("messageCreate", async (message, client) => {
           },
         },
       });
+      fs.appendFile(
+        path.join(__dirname, "..", "transcripts", `${message.author.id}.txt`),
+        `\n${message.author.username}${message.author.discriminator}: ${message.content}`,
+        (err) => {
+          if (err) throw err;
+        }
+      );
     }
   }
   await message.addReaction(config.TickEmoji);
