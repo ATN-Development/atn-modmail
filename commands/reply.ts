@@ -103,5 +103,7 @@ export default new Command(
         return true;
       }
     },
+  }, {
+    description: 'Reply to a ModMail ticket.'
   }
 );
