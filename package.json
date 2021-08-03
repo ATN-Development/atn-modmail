@@ -1,6 +1,6 @@
 {
   "name": "atn-modmail",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "A modmail bot for ATN Server.",
   "main": "dist/index.js",
   "scripts": {

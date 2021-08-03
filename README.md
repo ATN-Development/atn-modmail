@@ -33,6 +33,7 @@
 </p>
 
 # Overview
+
 ATN ModMail is an open source ModMail bot made by Eight∞💔. This modmail is completely customizable and a very easy to use bot. It doesn't require coding knowledge also except just configuring certain values.
 
 [Installation](#installation) is also very easy. Configuring the bot with custom messages just requires basic variable assign knowledge.
@@ -45,29 +46,37 @@ ATN ModMail is an open source ModMail bot made by Eight∞💔. This modmail is 
 - Ticket Transcripts
 
 # Prerequisites
+
 When using the bot, you must have done the following:
+
 - Installed [Node.js on their official website](https://nodejs.org/en/download/)
-- Installed the `typescript` npm package by using 
+- Installed the `typescript` npm package by using
+
 ```powershell
 npm install -g typescript
 ```
-in the [terminal](#notes)*
+
+in the [terminal](#notes)\*
 
 # Installation
+
 Configure the bot settings by making changes in `config.example.ts` and `snippets.example.ts`. After configuring, change the file names to `config.ts` and `snippets.ts` and then type in `npm run start`in terminal where **location must be the bot directory**.
 
-If you are getting an error called 
+If you are getting an error called
+
 ```powershell
 Error: Authentication failed
 ```
+
 you need to save the file using the shortcut `Ctrl` + `S`. If you did not save the file, there will be a white ball at the left/right of the filename at the top of the screen, as you can see from the screenshot below.
 ![image](https://eight.is-a.fail/5651Kkwil.png)
 
 If you still experience issues, feel free to join the [Discord Server](https://discord.gg/esTfFnEENS) and ask for help.
 
-If you find any bugs or issues in it, feel free to fork it and submit a PR or you could just create a [Github Issue](https://github.com/NotReallyEight/atn-modmail/issues/new/choose). Alternatively, you could also join  the [Discord Server](https://discord.gg/esTfFnEENS) 
+If you find any bugs or issues in it, feel free to fork it and submit a PR or you could just create a [Github Issue](https://github.com/NotReallyEight/atn-modmail/issues/new/choose). Alternatively, you could also join the [Discord Server](https://discord.gg/esTfFnEENS)
 
 # Join the community
+
 ATN Modmail is still being developed. This means, new features are yet to come. You are free to contribute to this project by submitting [PR's](https://github.com/NotReallyEight/atn-modmail/pulls)
 
 Join us on our [Official Discord Server](https://discord.gg/esTfFnEENS)!
@@ -78,8 +87,7 @@ Released under the [GNU GPL v3](https://www.gnu.org/licenses/gpl-3.0.en.html) li
 
 # Notes
 
-*To open the terminal in [Visual Studio Code](https://code.visualstudio.com/), you need to:
+\*To open the terminal in [Visual Studio Code](https://code.visualstudio.com/), you need to:
+
 - Open Visual Studio Code, click on `Terminal`, then, click on `New Terminal`. In the popup that will show up, type in the command you want to run, as you can see from the example screenshot below.
-![image](https://eight.is-a.fail/5650eOJob.png)
-
-
+  ![image](https://eight.is-a.fail/5650eOJob.png)
