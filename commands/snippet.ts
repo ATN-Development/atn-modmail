@@ -110,7 +110,8 @@ export default new Command(
         return true;
       }
     },
-  }, {
-    description: 'Reply to a ModMail ticket with a premade snippet message.'
+  },
+  {
+    description: "Reply to a ModMail ticket with a premade snippet message.",
   }
 );

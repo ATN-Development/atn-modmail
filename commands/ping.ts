@@ -15,7 +15,8 @@ export default new Command(
         return true;
       }
     },
-  }, {
-    description: 'Check the bot\'s latency.'
+  },
+  {
+    description: "Check the bot's latency.",
   }
 );

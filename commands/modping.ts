@@ -30,7 +30,9 @@ export default new Command(
         return true;
       }
     },
-  }, {
-    description: 'Get the ModPing role to get notified whenever a ticket gets opened.'
+  },
+  {
+    description:
+      "Get the ModPing role to get notified whenever a ticket gets opened.",
   }
 );

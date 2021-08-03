@@ -32,7 +32,7 @@ export interface CommandFn<T extends Eris.Textable = Eris.TextableChannel> {
 
 export interface CommandOptions {
   description?: string;
-  expectedArguments?: string
+  expectedArguments?: string;
 }
 
 export class Command {
@@ -66,7 +66,7 @@ export class Command {
       this.description = options?.description;
     }
     if (options?.expectedArguments) {
-      this.expectedArguments = options?.expectedArguments
+      this.expectedArguments = options?.expectedArguments;
     }
   }
 

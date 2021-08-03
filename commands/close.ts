@@ -99,7 +99,8 @@ export default new Command(
         return true;
       }
     },
-  }, {
-    description: 'Close a ModMail ticket.'
+  },
+  {
+    description: "Close a ModMail ticket.",
   }
 );
