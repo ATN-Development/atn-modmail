@@ -7,12 +7,12 @@ export default new Command(
     if (message.member?.roles.includes(config.ModPingRoleID)) {
       await message.member?.removeRole(config.ModPingRoleID);
       await message.channel.createMessage(
-        "Succesfully removed the ModMail Ping role."
+        "Successfully removed the ModMail Ping role."
       );
     } else {
       await message.member?.addRole(config.ModPingRoleID);
       await message.channel.createMessage(
-        "Succesfully added the ModMail Ping role."
+        "Successfully added the ModMail Ping role."
       );
     }
   },
