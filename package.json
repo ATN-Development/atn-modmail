@@ -14,12 +14,12 @@
   "author": "NotReallyEight",
   "license": "GPL-3.0-or-later",
   "devDependencies": {
-    "@tsconfig/node16": "^1.0.1",
-    "tslib": "^2.3.0"
+    "@tsconfig/node16": "^1.0.1"
   },
   "dependencies": {
     "@types/node": "^16.4.10",
     "axios": "^0.21.1",
-    "eris": "^0.15.1"
+    "eris": "^0.15.1",
+    "tslib": "^2.3.0"
   }
 }

@@ -75,6 +75,9 @@ export default new Command(
       embed: {
         title: message.author.username,
         description: args.join(" "),
+        image: message.attachments.length ? {
+          url: message.attachments[0].url
+        } : undefined,
         footer: {
           text: "Staff Reply",
           icon_url: message.author.avatarURL,
