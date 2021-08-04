@@ -1,6 +1,6 @@
 {
   "name": "atn-modmail",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "A modmail bot for ATN Server.",
   "main": "dist/index.js",
   "scripts": {
@@ -18,7 +18,7 @@
     "tslib": "^2.3.0"
   },
   "dependencies": {
-    "@types/node": "^16.4.7",
+    "@types/node": "^16.4.10",
     "axios": "^0.21.1",
     "eris": "^0.15.1"
   }

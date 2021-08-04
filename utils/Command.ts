@@ -30,11 +30,23 @@ export interface CommandFn<T extends Eris.Textable = Eris.TextableChannel> {
   (message: Eris.Message<T>, args: string[], client: Client): void;
 }
 
+export interface CommandOptions {
+  description?: string;
+  expectedArguments?: string;
+}
+
 export class Command {
   names: string[];
   fn: CommandFn;
   reqs: CommandReqs;
-  constructor(names: string | string[], fn: CommandFn, reqs?: CommandReqs) {
+  description?: string;
+  expectedArguments?: string;
+  constructor(
+    names: string | string[],
+    fn: CommandFn,
+    reqs?: CommandReqs,
+    options?: CommandOptions
+  ) {
     if (Array.isArray(names)) {
       this.names = names;
     } else {
@@ -49,6 +61,12 @@ export class Command {
       if (reqs.custom) {
         this.reqs.custom = reqs.custom;
       }
+    }
+    if (options?.description) {
+      this.description = options?.description;
+    }
+    if (options?.expectedArguments) {
+      this.expectedArguments = options?.expectedArguments;
     }
   }
 
