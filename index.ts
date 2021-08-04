@@ -20,3 +20,5 @@ client.addEvents(path.join(__dirname, "events"));
 client.addCommands(path.join(__dirname, "commands"));
 
 client.connect();
+
+client.checkVersion();

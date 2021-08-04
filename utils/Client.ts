@@ -5,6 +5,7 @@ import { readdirSync } from "fs";
 import pathPackage from "path";
 import { Command } from "./Command";
 import axios from "axios";
+import path from "path";
 
 export interface ClientOptions extends Eris.ClientOptions {
   prefix: string;
@@ -135,5 +136,25 @@ export class Client extends Eris.Client {
     });
 
     return result.data.url;
+  }
+
+  async checkVersion(): Promise<boolean> {
+    const latestVersion = await axios.get(
+      "https://notreallyeight.tk/api/modmailversion"
+    );
+    const actualVersion = require(path.join(
+      __dirname,
+      "..",
+      "..",
+      "package.json"
+    ));
+    if (latestVersion.data.version !== actualVersion.version) {
+      console.log(
+        "Warning: The bot is not up to date with the latest version! Please update!"
+      );
+      return false;
+    } else {
+      return true;
+    }
   }
 }
