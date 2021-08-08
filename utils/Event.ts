@@ -2,6 +2,7 @@
 
 import { Client } from "./Client";
 import Eris from "eris";
+import { SlashInteraction } from "./SlashInteraction";
 
 export interface EventListenerOptions {
   once?: boolean;
@@ -349,6 +350,13 @@ export class Event implements EventListenerOptions {
   constructor(
     event: "shardDisconnect" | "error",
     listener: (err: Error, id: number, client: Client) => void,
+    options?: EventListenerOptions
+  );
+
+  // Self made events
+  constructor(
+    event: "interactionCreate",
+    listener: (interaction: SlashInteraction, client: Client) => void,
     options?: EventListenerOptions
   );
 

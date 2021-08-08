@@ -19,6 +19,10 @@ client.addEvents(path.join(__dirname, "events"));
 
 client.addCommands(path.join(__dirname, "commands"));
 
-client.connect();
+client.addSlashCommands(path.join(__dirname, "slashCommands"));
 
 client.checkVersion();
+
+client.addInteractionEvents(path.join(__dirname, "interactionEvents"));
+
+client.connect();
