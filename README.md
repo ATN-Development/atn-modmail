@@ -50,17 +50,10 @@ ATN ModMail is an open source ModMail bot made by Eight∞💔. This modmail is 
 When using the bot, you must have done the following:
 
 - Installed [Node.js on their official website](https://nodejs.org/en/download/)
-- Installed the `typescript` npm package by using
-
-```powershell
-npm install -g typescript
-```
-
-in the [terminal](#notes)\*
 
 # Installation
 
-Configure the bot settings by making changes in `config.example.ts` and `snippets.example.ts`. After configuring, change the file names to `config.ts` and `snippets.ts` and then type in `npm run start`in terminal where **location must be the bot directory**.
+Configure the bot settings by making changes in `config.example.ts` and `snippets.example.ts`. After configuring, change the file names to `config.ts` and `snippets.ts` and then type in `npm run start`in [terminal*](#notes) where **location must be the bot directory**.
 
 If you still experience issues, feel free to join the [Discord Server](https://discord.gg/esTfFnEENS) and ask for help.
 
