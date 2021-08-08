@@ -109,7 +109,9 @@ export class Client extends Eris.Client {
       this.createSlashCommand({
         name: command.name,
         description: command.description,
-        default_permission: command.options.default_permission ?? true,
+        default_permission: command.options
+          ? command.options.default_permission
+          : true,
       });
     }
 
@@ -278,7 +280,7 @@ export class Client extends Eris.Client {
             name: options.name,
             description: options.description,
             options: options.options,
-            default_permission: options.default_permission ?? true,
+            default_permission: options ? options.default_permission : true,
           },
           {
             headers: {
@@ -294,7 +296,7 @@ export class Client extends Eris.Client {
             name: options.name,
             description: options.description,
             options: options.options,
-            default_permission: options.default_permission ?? true,
+            default_permission: options ? options.default_permission : true,
           },
           {
             headers: {

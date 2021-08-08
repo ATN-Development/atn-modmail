@@ -10,7 +10,6 @@ export default new SlashCommand(
             Date.now() - interaction.createdAt
           }\`ms.`,
         },
-        type: 4,
       },
       client
     );
