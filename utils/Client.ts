@@ -9,6 +9,7 @@ import path from "path";
 import config from "../config";
 import { ApplicationCommandOptions, SlashCommand } from "./SlashCommand";
 import { SlashInteraction } from "./SlashInteraction";
+import ComponentEvent from "./ComponentEvent";
 
 export interface ClientOptions extends Eris.ClientOptions {
   prefix: string;
@@ -27,6 +28,7 @@ export class Client extends Eris.Client {
   prefix: string;
   commands: Command[] = [];
   slashCommands: SlashCommand[] = [];
+  componentEvents: ComponentEvent[] = []
   constructor(options: ClientOptions) {
     super(options.token, options);
     this.token = options.token;
@@ -106,12 +108,15 @@ export class Client extends Eris.Client {
 
       this.slashCommands.push(command);
 
+
+      
       this.createSlashCommand({
         name: command.name,
         description: command.description,
         default_permission: command.options
           ? command.options.default_permission
           : true,
+        options: command.options ? command.options.options : [],
       });
     }
 
@@ -229,7 +234,7 @@ export class Client extends Eris.Client {
     }
   }
 
-  async hasSlashCommand(name: string) {
+  async hasSlashCommand(name: string):Promise<boolean> {
     try {
       do {
         await this.wait(500);
@@ -272,8 +277,10 @@ export class Client extends Eris.Client {
     do {
       await this.wait(500);
     } while (!this.user);
+    const commands = await this.getSlashCommands()
     try {
       if (await this.hasSlashCommand(options.name)) {
+        if (commands?.find(c => c.name === options.name && c.description === options.description && c.default_permission === options.default_permission && JSON.stringify(c.options) === JSON.stringify(options.options))) return this
         await axios.patch(
           `https://discord.com/api/v9/applications/${this.user?.id}/guilds/${config.GuildID}/commands`,
           {
@@ -306,6 +313,9 @@ export class Client extends Eris.Client {
           }
         );
       }
+      console.log(await this.getSlashCommands())
+
+      // name, description, default_permission, options
     } catch (err: any) {
       if (err.response) {
         console.log(err.response.data);
@@ -326,5 +336,45 @@ export class Client extends Eris.Client {
     return new Promise((resolve) => {
       setTimeout(resolve, milliseconds);
     });
+  }
+
+  async addComponentEvents(path: string) {
+    const eventFiles = readdirSync(path);
+
+    for (const file of eventFiles) {
+      let event = require(pathPackage.join(path, file));
+
+      if (event.default) {
+        event = Object.assign(event.default, event);
+        delete event.default;
+      }
+
+      this.componentEvents.push(event);
+    }
+
+    return this;
+  }
+  
+  async getSlashCommands(): Promise<CreateSlashCommandOptions[] | void> {
+    try {
+      do {
+        await this.wait(500);
+      } while (!this.user);
+      const commands = await axios
+        .get(
+          `https://discord.com/api/v9/applications/${this.user?.id}/guilds/${config.GuildID}/commands`,
+          {
+            headers: {
+              Authorization: `Bot ${this.token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => res.data);
+
+      return commands;
+    } catch (err: any) {
+      console.log("Error: ", err.message);
+    }
   }
 }
