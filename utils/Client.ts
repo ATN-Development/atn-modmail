@@ -17,6 +17,7 @@ export interface ClientOptions extends Eris.ClientOptions {
 }
 
 export interface CreateSlashCommandOptions {
+  id?: string;
   name: string;
   description: string;
   options?: ApplicationCommandOptions[];
@@ -28,7 +29,7 @@ export class Client extends Eris.Client {
   prefix: string;
   commands: Command[] = [];
   slashCommands: SlashCommand[] = [];
-  componentEvents: ComponentEvent[] = []
+  componentEvents: ComponentEvent[] = [];
   constructor(options: ClientOptions) {
     super(options.token, options);
     this.token = options.token;
@@ -108,8 +109,6 @@ export class Client extends Eris.Client {
 
       this.slashCommands.push(command);
 
-
-      
       this.createSlashCommand({
         name: command.name,
         description: command.description,
@@ -234,7 +233,7 @@ export class Client extends Eris.Client {
     }
   }
 
-  async hasSlashCommand(name: string):Promise<boolean> {
+  async hasSlashCommand(name: string): Promise<boolean> {
     try {
       do {
         await this.wait(500);
@@ -251,9 +250,8 @@ export class Client extends Eris.Client {
         )
         .then((res) => res.data);
 
-      for (let i = 0; i < commands.data; i++) {
-        if (commands.data[i].name.toLowerCase() === name.toLowerCase()) {
-          console.log(commands.data[i]);
+      for (let i = 0; i < commands.length; i++) {
+        if (commands[i].name.toLowerCase() === name.toLowerCase()) {
           return true;
         }
       }
@@ -266,7 +264,7 @@ export class Client extends Eris.Client {
       } else if (err.request) {
         console.log(err.request);
       } else {
-        console.log("Error", err.message);
+        console.log("Error: ", err.message);
       }
       console.log(err.config);
       return false;
@@ -277,25 +275,42 @@ export class Client extends Eris.Client {
     do {
       await this.wait(500);
     } while (!this.user);
-    const commands = await this.getSlashCommands()
+    const commands = await this.getSlashCommands();
     try {
       if (await this.hasSlashCommand(options.name)) {
-        if (commands?.find(c => c.name === options.name && c.description === options.description && c.default_permission === options.default_permission && JSON.stringify(c.options) === JSON.stringify(options.options))) return this
-        await axios.patch(
-          `https://discord.com/api/v9/applications/${this.user?.id}/guilds/${config.GuildID}/commands`,
-          {
-            name: options.name,
-            description: options.description,
-            options: options.options,
-            default_permission: options ? options.default_permission : true,
-          },
-          {
-            headers: {
-              Authorization: `Bot ${this.token}`,
-              "Content-Type": "application/json",
+        const hasOptions = options.options ? true : false;
+        if (
+          commands?.find((c) =>
+            c.name === options.name &&
+            c.description === options.description &&
+            c.default_permission === options.default_permission &&
+            hasOptions
+              ? JSON.stringify(c.options) === JSON.stringify(options.options)
+              : false
+          )
+        ) {
+          return this;
+        } else {
+          await axios.patch(
+            `https://discord.com/api/v9/applications/${this.user?.id}/guilds/${
+              config.GuildID
+            }/commands/${
+              commands?.find((c) => c?.name === options?.name)?.id ?? ""
+            }`,
+            {
+              name: options.name,
+              description: options.description,
+              options: options.options,
+              default_permission: options ? options.default_permission : true,
             },
-          }
-        );
+            {
+              headers: {
+                Authorization: `Bot ${this.token}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+        }
       } else {
         await axios.post(
           `https://discord.com/api/v9/applications/${this.user?.id}/guilds/${config.GuildID}/commands`,
@@ -313,20 +328,9 @@ export class Client extends Eris.Client {
           }
         );
       }
-      console.log(await this.getSlashCommands())
-
-      // name, description, default_permission, options
     } catch (err: any) {
-      if (err.response) {
-        console.log(err.response.data);
-        console.log(err.response.status);
-        console.log(err.response.headers);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("Error", err.message);
-      }
-      console.log(err.config);
+      console.log("Error: ", err.message);
+      console.log(err);
     }
 
     return this;
@@ -354,7 +358,7 @@ export class Client extends Eris.Client {
 
     return this;
   }
-  
+
   async getSlashCommands(): Promise<CreateSlashCommandOptions[] | void> {
     try {
       do {
