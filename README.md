@@ -53,7 +53,7 @@ When using the bot, you must have done the following:
 
 # Installation
 
-Configure the bot settings by making changes in `config.example.ts` and `snippets.example.ts`. After configuring, change the file names to `config.ts` and `snippets.ts` and then type in `npm run start`in [terminal*](#notes) where **location must be the bot directory**.
+Configure the bot settings by making changes in `config.example.ts` and `snippets.example.ts`. After configuring, change the file names to `config.ts` and `snippets.ts` and then type in `npm run start`in [terminal\*](#notes) where **location must be the bot directory**.
 
 If you still experience issues, feel free to join the [Discord Server](https://discord.gg/esTfFnEENS) and ask for help.
 
@@ -62,10 +62,12 @@ If you find any bugs or issues in it, feel free to fork it and submit a PR or yo
 # Common Errors
 
 #### Authentication failed
+
 If you are getting this error, you need to save the file using the shortcut `Ctrl` + `S`. If you did not save the file, there will be a white ball at the left/right of the filename at the top of the screen, as you can see from the screenshot below.
 ![image](https://eight.is-a.fail/5651Kkwil.png)
 
 #### Disallowed intents specified
+
 If you are getting this error, you need to head over to your [bot's application](https://discord.com/developers/applications/) and click on the `Bot` tab, from there you need to enable the `Server Members Intent`, as you can see from the screenshot below.
 ![image](https://eight.is-a.fail/56aFwmYyY.png)
 

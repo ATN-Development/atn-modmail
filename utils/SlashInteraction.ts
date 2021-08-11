@@ -1,4 +1,8 @@
-import { Interaction, InteractionPacketD, InteractionDataOptions } from "./Interaction";
+import {
+  Interaction,
+  InteractionPacketD,
+  InteractionDataOptions,
+} from "./Interaction";
 
 export interface SlashInteractionData {
   id?: string;
@@ -7,9 +11,9 @@ export interface SlashInteractionData {
 }
 
 export class SlashInteraction extends Interaction {
-  data: SlashInteractionData
+  data: SlashInteractionData;
   constructor(data: InteractionPacketD) {
-    super(data)
-    this.data = data.data
+    super(data);
+    this.data = data.data;
   }
 }

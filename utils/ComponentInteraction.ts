@@ -6,9 +6,9 @@ export interface ComponentInteractionData {
 }
 
 export class ComponentInteraction extends Interaction {
-  data: ComponentInteractionData
+  data: ComponentInteractionData;
   constructor(data: InteractionPacketD) {
-    super(data)
-    this.data = data.data
+    super(data);
+    this.data = data.data;
   }
 }

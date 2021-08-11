@@ -118,7 +118,8 @@ export default new SlashCommand(
         return true;
       }
     },
-  }, {
-    description: 'Close a ModMail ticket.'
+  },
+  {
+    description: "Close a ModMail ticket.",
   }
 );

@@ -25,6 +25,6 @@ client.checkVersion();
 
 client.addInteractionEvents(path.join(__dirname, "interactionEvents"));
 
-client.addComponentEvents(path.join(__dirname, "componentEvents"))
+client.addComponentEvents(path.join(__dirname, "componentEvents"));
 
 client.connect();
