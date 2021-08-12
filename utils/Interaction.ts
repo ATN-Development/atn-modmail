@@ -229,6 +229,46 @@ export class Interaction extends Eris.Base {
     }
   }
 
+  async deferWithSource(options?: InteractionResponse | string, client?: Client) {
+    try {
+      let response: InteractionResponse = {
+        data: {},
+      };
+      if (typeof options === "string") {
+        response.data.content = options;
+      } else {
+        response.data = options?.data ?? {};
+      }
+      response.data.flags = 64;
+      axios
+        .post(
+          `https://discord.com/api/v9/interactions/${this.id}/${this.token}/callback`,
+          {
+            type: 5,
+            data: response.data,
+          },
+          {
+            headers: {
+              Authorization: `Bot ${client?.token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => res);
+    } catch (err: any) {
+      if (err.response) {
+        console.log(err.response.data);
+        console.log(err.response.status);
+        console.log(err.response.headers);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("Error", err.message);
+      }
+      console.log(err.config);
+    }
+  }
+
   async followUp(options: InteractionResponse | string, client: Client) {
     try {
       let response: InteractionResponse = {
