@@ -196,10 +196,10 @@ export class Interaction extends Eris.Base {
       };
       if (typeof options === "string") {
         response.data.content = options;
+        response.data.flags = 64;
       } else {
         response.data = options.data;
       }
-      response.data.flags = 64;
       axios
         .post(
           `https://discord.com/api/v9/interactions/${this.id}/${this.token}/callback`,
@@ -229,17 +229,20 @@ export class Interaction extends Eris.Base {
     }
   }
 
-  async deferWithSource(options?: InteractionResponse | string, client?: Client) {
+  async deferWithSource(
+    options?: InteractionResponse | string,
+    client?: Client
+  ) {
     try {
       let response: InteractionResponse = {
         data: {},
       };
       if (typeof options === "string") {
         response.data.content = options;
+        response.data.flags = 64;
       } else {
         response.data = options?.data ?? {};
       }
-      response.data.flags = 64;
       axios
         .post(
           `https://discord.com/api/v9/interactions/${this.id}/${this.token}/callback`,
