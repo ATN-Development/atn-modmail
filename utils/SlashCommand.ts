@@ -31,7 +31,7 @@ export interface ApplicationCommandOptions {
   name: string;
   description: string;
   required?: boolean;
-  choices?: ApplicationCommandOptionChoice;
+  choices?: ApplicationCommandOptionChoice[];
   options?: ApplicationCommandOptions;
 }
 
