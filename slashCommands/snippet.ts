@@ -72,7 +72,13 @@ export default new SlashCommand(
     await dm?.createMessage({
       embed: {
         title: "Staff Team",
-        description: snippetToSend,
+        description: snippetToSend
+          .replace(new RegExp(/{{userid}}/, "g"), user?.id ?? "")
+          .replace(new RegExp(/{{usermention}}/, "g"), user?.mention ?? "")
+          .replace(
+            new RegExp(/{{usertag}}/, "g"),
+            `${user?.username}${user?.discriminator}`
+          ),
         color: config.DefaultColor,
         footer: {
           text: `${guild?.name} Staff`,
