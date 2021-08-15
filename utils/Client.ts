@@ -201,6 +201,9 @@ export class Client extends Eris.Client {
     return true;
   }
 
+  /**
+   * @deprecated
+   */
   async postTranscript(content: string): Promise<string> {
     if (!content) throw new Error("Please specify a valid content.");
 

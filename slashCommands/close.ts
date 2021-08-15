@@ -51,8 +51,6 @@ export default new SlashCommand(
       path.join(__dirname, "..", "transcripts", `${member?.id}.txt`)
     );
 
-    const transcriptURL = await client.postTranscript(content.toString());
-
     let webhooks = await (
       logsChannel as Eris.GuildTextableChannel
     ).getWebhooks();
@@ -76,13 +74,17 @@ export default new SlashCommand(
       embeds: [
         {
           title: "ModMail Closed",
-          description: `Opened by ${member?.username}\nTranscript URL: ${transcriptURL}`,
+          description: `Opened by ${member?.username}`,
           footer: {
             text: interaction.member.user.username,
             icon_url: commandAuthor?.avatarURL,
           },
         },
       ],
+      file: {
+        file: content,
+        name: "transcript.txt",
+      },
     });
   },
   {
