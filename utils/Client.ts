@@ -246,7 +246,6 @@ export class Client extends Eris.Client {
       do {
         await this.wait(500);
       } while (!this.user);
-      console.log(this.token)
       const commands = await axios
         .get(
           `https://discord.com/api/v9/applications/${this.user?.id}/guilds/${config.GuildID}/commands`,
