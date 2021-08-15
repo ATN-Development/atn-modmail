@@ -1,7 +1,10 @@
 import config from "../config";
 import { SlashCommand } from "../utils/SlashCommand";
 import snippets from "../snippets";
-// import Eris from "eris";
+import Eris from "eris";
+import { InteractionDataOptions } from "../utils/Interaction";
+import fs from "fs";
+import path from "path";
 
 export interface SlashOption {
   name: string;
@@ -13,29 +16,89 @@ let slashCommandOptions: SlashOption[] = [];
 for (const snippet in snippets) {
   slashCommandOptions.push({
     name: snippet,
-    value: "A premade snippet message!",
+    value: snippet,
   });
 }
 
 export default new SlashCommand(
   "snippet",
-  async (interaction, _client) => {
-    // const guild = client.guilds.get(interaction.guildId);
-    // const channel = guild?.channels.get(interaction.channelId);
-    // const member = guild?.members.get(
-    //   (channel as Eris.GuildTextableChannel).topic ?? ""
-    // );
-    // const user = client.users.get(member?.user.id ?? "");
+  async (interaction, client) => {
+    await interaction.deferWithSource(
+      {
+        data: {
+          flags: 0,
+        },
+      },
+      client
+    );
+    const guild = client.guilds.get(interaction.guildId);
+    const channel = guild?.channels.get(interaction.channelId);
+    const member = guild?.members.get(
+      (channel as Eris.GuildTextableChannel).topic ?? ""
+    );
+    const user = client.users.get(member?.user.id ?? "");
+    const dm = await user?.getDMChannel();
 
-    // let snippetToSend = "";
+    let snippetToSend = "";
 
-    // for (let i = 0; i < Object.keys(snippets).length; i++) {
-    //   if (args[0].toLowerCase() === Object.keys(snippets)[i]) {
-    //     snippetToSend = Object.entries(snippets)[i][1];
-    //   }
-    // }
-    console.log(interaction.data.options ? interaction.data.options[0] : undefined)
+    for (let i = 0; i < Object.keys(snippets).length; i++) {
+      if (
+        (
+          interaction.data.options as InteractionDataOptions[]
+        )[0].value?.toLowerCase() === Object.keys(snippets)[i]
+      ) {
+        snippetToSend = Object.entries(snippets)[i][1];
+      }
+    }
 
+    if (!snippetToSend.length) {
+      interaction.ephemeralReply(
+        "Please setup at least a snippet for the bot",
+        client
+      );
+      return;
+    }
+
+    fs.appendFile(
+      path.join(__dirname, "..", "transcripts", `${user?.id}.txt`),
+      `\n${interaction.member.user.username}${interaction.member.user.discriminator}: ${snippetToSend}`,
+      (err) => {
+        if (err) throw err;
+      }
+    );
+
+    const interactionAuthor = client.users.get(interaction.member.user.id);
+
+    await dm?.createMessage({
+      embed: {
+        title: "Staff Team",
+        description: snippetToSend,
+        color: config.DefaultColor,
+        footer: {
+          text: `${guild?.name} Staff`,
+          icon_url: guild?.iconURL ?? undefined,
+        },
+      },
+    });
+
+    await interaction.followUp(
+      {
+        data: {
+          embeds: [
+            {
+              type: "rich",
+              title: interactionAuthor?.username,
+              description: snippetToSend,
+              footer: {
+                text: "Staff Reply",
+                icon_url: interactionAuthor?.avatarURL,
+              },
+            },
+          ],
+        },
+      },
+      client
+    );
   },
   {
     custom: (interaction, client) => {
@@ -53,10 +116,11 @@ export default new SlashCommand(
         channel?.parentID !== config.ModMailCategoryID ||
         channel.id === config.ModMailLogID
       ) {
-        interaction.reply(
+        interaction.ephemeralReply(
           "You cannot run this command outside of a ModMail channel.",
           client
         );
+        return false;
       }
 
       return true;
