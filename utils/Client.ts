@@ -218,7 +218,12 @@ export class Client extends Eris.Client {
 
   async checkVersion(): Promise<boolean> {
     const latestVersion = await axios.get(
-      "https://notreallyeight.tk/api/modmailversion"
+      "https://raw.githubusercontent.com/NotReallyEight/atn-modmail/main/package.json",
+      {
+        headers: {
+          "accept": "application/vnd.github.v3+json"
+        }
+      }
     );
     const actualVersion = require(path.join(
       __dirname,
