@@ -246,12 +246,13 @@ export class Client extends Eris.Client {
       do {
         await this.wait(500);
       } while (!this.user);
+      console.log(this.token)
       const commands = await axios
         .get(
           `https://discord.com/api/v9/applications/${this.user?.id}/guilds/${config.GuildID}/commands`,
           {
             headers: {
-              Authorization: `Bot ${this.token}`,
+              Authorization: this.token.startsWith('Bot') ? this.token: `Bot ${this.token}`,
               "Content-Type": "application/json",
             },
           }
@@ -313,7 +314,7 @@ export class Client extends Eris.Client {
             },
             {
               headers: {
-                Authorization: `Bot ${this.token}`,
+                Authorization: this.token.startsWith('Bot') ? this.token: `Bot ${this.token}`,
                 "Content-Type": "application/json",
               },
             }
@@ -330,7 +331,7 @@ export class Client extends Eris.Client {
           },
           {
             headers: {
-              Authorization: `Bot ${this.token}`,
+              Authorization: this.token.startsWith('Bot') ? this.token: `Bot ${this.token}`,
               "Content-Type": "application/json",
             },
           }

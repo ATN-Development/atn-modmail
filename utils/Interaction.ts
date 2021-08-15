@@ -129,7 +129,7 @@ export class Interaction extends Eris.Base {
           },
           {
             headers: {
-              Authorization: `Bot ${client.token}`,
+              Authorization: client.token.startsWith('Bot') ? client.token: `Bot ${client.token}`,
               "Content-Type": "application/json",
             },
           }
@@ -169,7 +169,7 @@ export class Interaction extends Eris.Base {
           },
           {
             headers: {
-              Authorization: `Bot ${client.token}`,
+              Authorization: client.token.startsWith('Bot') ? client.token: `Bot ${client.token}`,
               "Content-Type": "application/json",
             },
           }
@@ -209,7 +209,7 @@ export class Interaction extends Eris.Base {
           },
           {
             headers: {
-              Authorization: `Bot ${client.token}`,
+              Authorization: client.token.startsWith('Bot') ? client.token: `Bot ${client.token}`,
               "Content-Type": "application/json",
             },
           }
@@ -252,7 +252,7 @@ export class Interaction extends Eris.Base {
           },
           {
             headers: {
-              Authorization: `Bot ${client?.token}`,
+              Authorization: client?.token.startsWith('Bot') ? client.token: `Bot ${this.token}`,
               "Content-Type": "application/json",
             },
           }
@@ -288,7 +288,7 @@ export class Interaction extends Eris.Base {
           response.data,
           {
             headers: {
-              Authorization: `Bot ${client.token}`,
+              Authorization: client.token.startsWith('Bot') ? client.token: `Bot ${client.token}`,
               "Content-Type": "application/json",
             },
           }
