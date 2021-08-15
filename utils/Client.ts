@@ -251,7 +251,7 @@ export class Client extends Eris.Client {
           `https://discord.com/api/v9/applications/${this.user?.id}/guilds/${config.GuildID}/commands`,
           {
             headers: {
-              Authorization: `Bot ${this.token}`,
+              Authorization: this.token.startsWith('Bot') ? this.token: `Bot ${this.token}`,
               "Content-Type": "application/json",
             },
           }
@@ -313,7 +313,7 @@ export class Client extends Eris.Client {
             },
             {
               headers: {
-                Authorization: `Bot ${this.token}`,
+                Authorization: this.token.startsWith('Bot') ? this.token: `Bot ${this.token}`,
                 "Content-Type": "application/json",
               },
             }
@@ -330,7 +330,7 @@ export class Client extends Eris.Client {
           },
           {
             headers: {
-              Authorization: `Bot ${this.token}`,
+              Authorization: this.token.startsWith('Bot') ? this.token: `Bot ${this.token}`,
               "Content-Type": "application/json",
             },
           }
@@ -338,7 +338,6 @@ export class Client extends Eris.Client {
       }
     } catch (err: any) {
       console.log("Error: ", err.message);
-      console.log(err);
     }
 
     return this;
@@ -377,7 +376,7 @@ export class Client extends Eris.Client {
           `https://discord.com/api/v9/applications/${this.user?.id}/guilds/${config.GuildID}/commands`,
           {
             headers: {
-              Authorization: `Bot ${this.token}`,
+              Authorization: this.token.startsWith('Bot') ? this.token: `Bot ${this.token}`,
               "Content-Type": "application/json",
             },
           }
