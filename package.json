@@ -1,12 +1,12 @@
 {
   "name": "atn-modmail",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "A modmail bot for ATN Server.",
   "main": "dist/index.js",
   "scripts": {
     "test": "node .",
     "start": "npm install && npm run compiler && npm run test",
-    "compiler": "tsc"
+    "compiler": "npx tsc"
   },
   "keywords": [
     "modmail"
@@ -14,12 +14,13 @@
   "author": "NotReallyEight",
   "license": "GPL-3.0-or-later",
   "devDependencies": {
-    "@tsconfig/node16": "^1.0.1",
-    "tslib": "^2.3.0"
+    "@tsconfig/node16": "^1.0.1"
   },
   "dependencies": {
-    "@types/node": "^16.4.10",
+    "@types/node": "^16.6.1",
     "axios": "^0.21.1",
-    "eris": "^0.15.1"
+    "chalk": "^4.1.2",
+    "eris": "^0.15.1",
+    "tslib": "^2.3.1"
   }
 }
