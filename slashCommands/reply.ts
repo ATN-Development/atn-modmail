@@ -18,7 +18,7 @@ export default new SlashCommand(
         "transcripts",
         `${interaction.member.user?.id}.txt`
       ),
-      `\n${interaction.member.user.username}${
+      `\n${interaction.member.user.username}#${
         interaction.member.user.discriminator
       }: ${interaction.data.options ? interaction.data.options[0].value : ""}`,
       (err) => {

@@ -61,7 +61,7 @@ export default new Command(
 
       fs.appendFile(
         path.join(__dirname, "..", "transcripts", `${user?.id}.txt`),
-        `\n${message.author.username}${message.author.discriminator}: ${snippetToSend}`,
+        `\n${message.author.username}#${message.author.discriminator}: ${snippetToSend}`,
         (err) => {
           if (err) throw err;
         }
@@ -92,7 +92,7 @@ export default new Command(
             .replace(new RegExp(/{{usermention}}/, "g"), user?.mention ?? "")
             .replace(
               new RegExp(/{{usertag}}/, "g"),
-              `${user?.username}${user?.discriminator}`
+              `${user?.username}#${user?.discriminator}`
             ),
           footer: {
             text: "Staff Reply",

@@ -17,7 +17,7 @@ export default new Command(
     if (message.attachments.length > 0) {
       fs.appendFile(
         path.join(__dirname, "..", "transcripts", `${user?.id}.txt`),
-        `\n${message.author.username}${
+        `\n${message.author.username}#${
           message.author.discriminator
         }: ${args.join(" ")}\nMessage attachments: ${
           message.attachments[0].url
@@ -47,7 +47,7 @@ export default new Command(
     } else {
       fs.appendFile(
         path.join(__dirname, "..", "transcripts", `${user?.id}.txt`),
-        `\n${message.author.username}${
+        `\n${message.author.username}#${
           message.author.discriminator
         }: ${args.join(" ")}`,
         (err) => {
