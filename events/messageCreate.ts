@@ -49,7 +49,7 @@ export default new Event("messageCreate", async (message, client) => {
       .replace(new RegExp(/{{usermention}}/, "g"), message.author.mention)
       .replace(
         new RegExp(/{{usertag}}/, "g"),
-        `${message.author.username}${message.author.discriminator}`
+        `${message.author.username}#${message.author.discriminator}`
       );
     await (message.channel as TextableChannel).createMessage({
       embed: {
@@ -70,7 +70,7 @@ export default new Event("messageCreate", async (message, client) => {
           title: "New Modmail",
           description: message.content,
           footer: {
-            text: `${message.author.username}${message.author.discriminator}`,
+            text: `${message.author.username}#${message.author.discriminator}`,
             icon_url: message.author.avatarURL,
           },
           image: {
@@ -85,7 +85,7 @@ export default new Event("messageCreate", async (message, client) => {
       });
       fs.appendFile(
         path.join(__dirname, "..", "transcripts", `${message.author.id}.txt`),
-        `${message.author.username}${message.author.discriminator}: ${message.content}\nMessage attachments: ${message.attachments[0].url}`,
+        `${message.author.username}#${message.author.discriminator}: ${message.content}\nMessage attachments: ${message.attachments[0].url}`,
         (err) => {
           if (err) throw err;
         }
@@ -97,7 +97,7 @@ export default new Event("messageCreate", async (message, client) => {
           title: "New Modmail",
           description: message.content,
           footer: {
-            text: `${message.author.username}${message.author.discriminator}`,
+            text: `${message.author.username}#${message.author.discriminator}`,
             icon_url: message.author.avatarURL,
           },
         },
@@ -107,7 +107,7 @@ export default new Event("messageCreate", async (message, client) => {
       });
       fs.appendFile(
         path.join(__dirname, "..", "transcripts", `${message.author.id}.txt`),
-        `${message.author.username}${message.author.discriminator}: ${message.content}`,
+        `${message.author.username}#${message.author.discriminator}: ${message.content}`,
         (err) => {
           if (err) throw err;
         }
@@ -154,7 +154,7 @@ export default new Event("messageCreate", async (message, client) => {
           title: message.author.username,
           description: message.content,
           footer: {
-            text: `${message.author.username}${message.author.discriminator}`,
+            text: `${message.author.username}#${message.author.discriminator}`,
             icon_url: message.author.avatarURL,
           },
           image: {
@@ -164,7 +164,7 @@ export default new Event("messageCreate", async (message, client) => {
       });
       fs.appendFile(
         path.join(__dirname, "..", "transcripts", `${message.author.id}.txt`),
-        `\n${message.author.username}${message.author.discriminator}: ${message.content}\nMessage attachments: ${message.attachments[0].url}`,
+        `\n${message.author.username}#${message.author.discriminator}: ${message.content}\nMessage attachments: ${message.attachments[0].url}`,
         (err) => {
           if (err) throw err;
         }
@@ -175,14 +175,14 @@ export default new Event("messageCreate", async (message, client) => {
           title: message.author.username,
           description: message.content,
           footer: {
-            text: `${message.author.username}${message.author.discriminator}`,
+            text: `${message.author.username}#${message.author.discriminator}`,
             icon_url: message.author.avatarURL,
           },
         },
       });
       fs.appendFile(
         path.join(__dirname, "..", "transcripts", `${message.author.id}.txt`),
-        `\n${message.author.username}${message.author.discriminator}: ${message.content}`,
+        `\n${message.author.username}#${message.author.discriminator}: ${message.content}`,
         (err) => {
           if (err) throw err;
         }
