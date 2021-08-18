@@ -61,7 +61,7 @@ export default new SlashCommand(
 
     fs.appendFile(
       path.join(__dirname, "..", "transcripts", `${user?.id}.txt`),
-      `\n${interaction.member.user.username}${interaction.member.user.discriminator}: ${snippetToSend}`,
+      `\n${interaction.member.user.username}#${interaction.member.user.discriminator}: ${snippetToSend}`,
       (err) => {
         if (err) throw err;
       }
@@ -77,7 +77,7 @@ export default new SlashCommand(
           .replace(new RegExp(/{{usermention}}/, "g"), user?.mention ?? "")
           .replace(
             new RegExp(/{{usertag}}/, "g"),
-            `${user?.username}${user?.discriminator}`
+            `${user?.username}#${user?.discriminator}`
           ),
         color: config.DefaultColor,
         footer: {
