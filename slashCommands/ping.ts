@@ -2,17 +2,21 @@ import { SlashCommand } from "../utils/SlashCommand";
 
 export default new SlashCommand(
   "ping",
-  (interaction, client) => {
-    interaction.reply(
-      {
-        data: {
-          content: `Pong! My latency is \`${
-            Date.now() - interaction.createdAt
-          }\`ms.`,
+  async (interaction, client) => {
+    try {
+      await interaction.reply(
+        {
+          data: {
+            content: `Pong! My latency is \`${
+              Date.now() - interaction.createdAt
+            }\`ms.`,
+          },
         },
-      },
-      client
-    );
+        client
+      );
+    } catch (err: any) {
+      console.log(`Error: ${err.message}`);
+    }
   },
   {
     custom: (interaction) => {
