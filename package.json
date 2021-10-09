@@ -1,11 +1,11 @@
 {
   "name": "atn-modmail",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "A modmail bot for ATN Server.",
   "main": "dist/index.js",
   "scripts": {
     "test": "node .",
-    "start": "npm install && npm run compiler && npm run test",
+    "start": "npm install && npm run compile && npm run test",
     "compile": "npx tsc"
   },
   "keywords": [
