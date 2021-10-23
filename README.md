@@ -71,6 +71,16 @@ If you are getting this error, you need to save the file using the shortcut `Ctr
 If you are getting this error, you need to head over to your [bot's application](https://discord.com/developers/applications/) and click on the `Bot` tab, from there you need to enable the `Server Members Intent`, as you can see from the screenshot below.
 ![image](https://eight.is-a.fail/56aFwmYyY.png)
 
+# FAQ
+
+#### How can I use a default emoji in the `config.ts` file?
+
+If you do not like custom emojis, and you want to use some default ones, you should type the emoji directly from your computer's keyboard through shortcuts or copy pasting using third party websites. (E.g.: [Emojipedia](https://emojipedia.org/))
+
+You can see how it would look like with the `✔️` emoji for example:
+
+![image](https://eight.is-a.fail/5dxhVFI_W.png)
+
 # Join the community
 
 ATN Modmail is still being developed. This means, new features are yet to come. You are free to contribute to this project by submitting [PR's](https://github.com/NotReallyEight/atn-modmail/pulls)
