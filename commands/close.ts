@@ -20,7 +20,7 @@ export default new Command(
     const member = (
       message.channel as Eris.GuildTextableChannel
     ).guild.members.find(
-      (m) => m.id === (message.channel as Eris.GuildTextableChannel).topic
+      (m) => m.id === (message.channel as Eris.TextChannel).topic
     );
     const user = client.users.get(member?.id || "");
     const dm = await user?.getDMChannel();
@@ -70,7 +70,7 @@ export default new Command(
       });
       webhooks.push(createdWebhook);
     }
-    await client.executeWebhook(webhooks[0].id, webhooks[0].token, {
+    await client.executeWebhook(webhooks[0].id, webhooks[0].token!, {
       allowedMentions: {
         everyone: false,
         roles: false,

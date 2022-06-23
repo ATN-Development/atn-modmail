@@ -1,11 +1,11 @@
 import { Event } from "../utils/Event";
 import config from "../config";
-import { GuildTextableChannel, TextableChannel, TextChannel } from "eris";
+import Eris, { GuildTextableChannel, TextableChannel, TextChannel } from "eris";
 import fs from "fs";
 import path from "path";
 
 export default new Event("messageCreate", async (message, client) => {
-  if ((message.channel as TextableChannel).type !== 1) return;
+  if ((message.channel as TextableChannel).type !== undefined) return;
 
   const guild = client.guilds.find((g) => g.id === config.GuildID);
   const channel = guild?.channels
@@ -28,13 +28,13 @@ export default new Event("messageCreate", async (message, client) => {
         permissionOverwrites: [
           {
             id: guild.id,
-            type: "role",
+            type: Eris.Constants.PermissionOverwriteTypes["ROLE"],
             deny: 1024,
             allow: 0,
           },
           {
             id: config.ModeratorRoleID,
-            type: "role",
+            type: Eris.Constants.PermissionOverwriteTypes["ROLE"],
             allow: 1024,
             deny: 0,
           },
@@ -51,7 +51,10 @@ export default new Event("messageCreate", async (message, client) => {
         new RegExp(/{{usertag}}/, "g"),
         `${message.author.username}#${message.author.discriminator}`
       );
-    await (message.channel as TextableChannel).createMessage({
+
+    const dmChannel = await message.author.getDMChannel();
+
+    await dmChannel.createMessage({
       embed: {
         title: "Modmail Automatic Message",
         description,
@@ -129,7 +132,7 @@ export default new Event("messageCreate", async (message, client) => {
       });
       webhooks.push(createdWebhook);
     }
-    await client.executeWebhook(webhooks[0].id, webhooks[0].token, {
+    await client.executeWebhook(webhooks[0].id, webhooks[0].token!, {
       allowedMentions: {
         everyone: false,
         roles: false,

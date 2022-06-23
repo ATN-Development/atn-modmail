@@ -11,7 +11,7 @@ export default new SlashCommand(
       const guild = client.guilds.get(interaction.guildId);
       const channel = guild?.channels.get(interaction.channelId);
       const member = channel?.guild.members.find(
-        (m) => m.id === (channel as Eris.GuildTextableChannel).topic
+        (m) => m.id === (channel as Eris.TextChannel).topic
       );
       const user = client.users.get(member?.id || "");
       const dm = await user?.getDMChannel();
@@ -32,15 +32,6 @@ export default new SlashCommand(
           color: config.DefaultColor,
         },
       });
-
-      await interaction.reply(
-        {
-          data: {
-            content: "Closing ModMail ticket...",
-          },
-        },
-        client
-      );
 
       await channel?.delete();
 
@@ -65,7 +56,7 @@ export default new SlashCommand(
         });
         webhooks.push(createdWebhook);
       }
-      await client.executeWebhook(webhooks[0].id, webhooks[0].token, {
+      await client.executeWebhook(webhooks[0].id, webhooks[0].token!, {
         allowedMentions: {
           everyone: false,
           roles: false,

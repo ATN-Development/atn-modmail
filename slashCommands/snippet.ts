@@ -35,7 +35,7 @@ export default new SlashCommand(
       const guild = client.guilds.get(interaction.guildId);
       const channel = guild?.channels.get(interaction.channelId);
       const member = guild?.members.get(
-        (channel as Eris.GuildTextableChannel).topic ?? ""
+        (channel as Eris.TextChannel).topic ?? ""
       );
       const user = client.users.get(member?.user.id ?? "");
       const dm = await user?.getDMChannel();

@@ -11,9 +11,7 @@ export default new SlashCommand(
       await interaction.deferWithSource(undefined, client);
       const guild = client.guilds.get(interaction.guildId);
       const channel = guild?.channels.get(interaction.channelId);
-      const user = client.users.get(
-        (channel as Eris.GuildTextableChannel).topic ?? ""
-      );
+      const user = client.users.get((channel as Eris.TextChannel).topic ?? "");
       const dm = await user?.getDMChannel();
 
       fs.appendFile(
