@@ -1,30 +1,33 @@
 {
-  "name": "atn-modmail",
-  "version": "2.2.3",
-  "description": "A modmail bot for ATN Server.",
-  "main": "dist/index.js",
-  "scripts": {
-    "start": "npm install && npm run build && node --enable-source-maps .",
-    "test": "npm run lint && tsc --noEmit",
-    "build": "npx tsc",
-    "lint": "eslint . --fix"
-  },
-  "keywords": [
-    "modmail"
-  ],
-  "author": "NotReallyEight",
-  "license": "GPL-3.0-or-later",
-  "devDependencies": {
-    "@tsconfig/node16": "^1.0.3",
-    "@types/node": "^18.0.0",
-    "@typescript-eslint/eslint-plugin": "^5.29.0",
-    "@typescript-eslint/parser": "^5.29.0",
-    "eslint": "^8.18.0",
-    "typescript": "^4.7.4"
-  },
-  "dependencies": {
-    "axios": "^0.27.2",
-    "eris": "^0.17.0",
-    "tslib": "^2.4.0"
-  }
+	"name": "atn-modmail",
+	"version": "2.2.3",
+	"description": "A modmail bot for ATN Server.",
+	"main": "dist/index.js",
+	"scripts": {
+		"start": "npm install && npm run build && node --enable-source-maps .",
+		"test": "npm run lint && tsc --noEmit && npm run prettier",
+		"build": "tsc",
+		"lint": "eslint . --fix",
+		"prettier": "prettier . --write --cache"
+	},
+	"keywords": [
+		"modmail"
+	],
+	"author": "NotReallyEight",
+	"license": "GPL-3.0-or-later",
+	"devDependencies": {
+		"@tsconfig/node16": "^1.0.3",
+		"@types/node": "^18.0.0",
+		"@typescript-eslint/eslint-plugin": "^5.29.0",
+		"@typescript-eslint/parser": "^5.29.0",
+		"eslint": "^8.18.0",
+		"eslint-config-prettier": "^8.5.0",
+		"prettier": "2.7.1",
+		"typescript": "^4.7.4"
+	},
+	"dependencies": {
+		"axios": "^0.27.2",
+		"eris": "^0.17.0",
+		"tslib": "^2.4.0"
+	}
 }

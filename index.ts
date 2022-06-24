@@ -3,16 +3,16 @@ import config from "./config";
 import path from "path";
 
 const client = new Client({
-  prefix: config.Prefix,
-  allowedMentions: {
-    everyone: false,
-    roles: true,
-    users: true,
-  },
-  autoreconnect: true,
-  getAllUsers: true,
-  token: config.Token,
-  intents: ["guilds", "guildMembers", "guildMessages"],
+	prefix: config.Prefix,
+	allowedMentions: {
+		everyone: false,
+		roles: true,
+		users: true,
+	},
+	autoreconnect: true,
+	getAllUsers: true,
+	token: config.Token,
+	intents: ["guilds", "guildMembers", "guildMessages"],
 });
 
 client.addEvents(path.join(__dirname, "events"));
