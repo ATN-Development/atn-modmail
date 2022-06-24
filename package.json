@@ -14,7 +14,7 @@
   "author": "NotReallyEight",
   "license": "GPL-3.0-or-later",
   "devDependencies": {
-    "@tsconfig/node16": "^1.0.1"
+    "@tsconfig/node16": "^1.0.3"
   },
   "dependencies": {
     "@types/node": "^16.11.4",
