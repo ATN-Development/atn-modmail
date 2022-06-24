@@ -12,19 +12,15 @@ const client = new Client({
   autoreconnect: true,
   getAllUsers: true,
   token: config.Token,
-  intents: 4611,
+  intents: ["guilds", "guildMembers", "guildMessages"],
 });
 
 client.addEvents(path.join(__dirname, "events"));
 
-client.addCommands(path.join(__dirname, "commands"));
+void client.addCommands(path.join(__dirname, "commands"));
 
-client.addSlashCommands(path.join(__dirname, "slashCommands"));
+void client.checkVersion();
 
-client.checkVersion();
+void client.addComponentEvents(path.join(__dirname, "componentEvents"));
 
-client.addInteractionEvents(path.join(__dirname, "interactionEvents"));
-
-client.addComponentEvents(path.join(__dirname, "componentEvents"));
-
-client.connect();
+void client.connect();

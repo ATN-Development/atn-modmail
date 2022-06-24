@@ -21,14 +21,13 @@
     "noUnusedParameters": true,
     "outDir": "dist",
     "resolveJsonModule": true,
+    "sourceMap": true,
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true
   },
   "extends": "@tsconfig/node16/tsconfig.json",
-  "include": [
-    "**/*"
-  ],
+  "include": ["**/*"],
   "exclude": ["node_modules", "dist", "types"]
 }

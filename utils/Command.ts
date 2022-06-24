@@ -1,91 +1,77 @@
-// Credits to https://npmjs.com/package/yuuko for some of the Command handler part.
-
-import Eris from "eris";
+import { ApplicationCommandOptions, CommandInteraction } from "eris";
 import { Client } from "./Client";
 
 async function enoughReqs(
-  reqs: CommandReqs,
-  message: Eris.Message,
-  args: string[],
+  reqs: SlashCommandReqs,
+  interaction: CommandInteraction,
   client: Client
 ) {
-  const { custom } = reqs;
-
-  if (custom && !(await custom(message, args, client))) {
+  if (reqs.custom && !(await reqs.custom(interaction, client))) {
     return false;
   }
 
   return true;
 }
 
-export interface CommandReqs {
+export interface SlashCommandReqs {
   custom?(
-    msg: Eris.Message,
-    args: string[],
+    interaction: CommandInteraction,
     client: Client
   ): boolean | Promise<boolean>;
 }
 
-export interface CommandFn<T extends Eris.Textable = Eris.TextableChannel> {
-  (message: Eris.Message<T>, args: string[], client: Client): void;
+export type CommandFn = (
+  interaction: CommandInteraction,
+  client: Client
+) => Promise<void> | void;
+
+export interface ApplicationCommandOptionChoice {
+  name: string;
+  value: string | number;
 }
 
 export interface CommandOptions {
-  description?: string;
-  expectedArguments?: string;
+  description: string;
+  options?: ApplicationCommandOptions[];
+  default_permission?: boolean;
 }
 
 export class Command {
-  names: string[];
+  name: string;
+  description: string;
   fn: CommandFn;
-  reqs: CommandReqs;
-  description?: string;
-  expectedArguments?: string;
+  reqs: SlashCommandReqs;
+  options?: CommandOptions;
   constructor(
-    names: string | string[],
+    name: string,
     fn: CommandFn,
-    reqs?: CommandReqs,
+    reqs?: SlashCommandReqs,
     options?: CommandOptions
   ) {
-    if (Array.isArray(names)) {
-      this.names = names;
-    } else {
-      this.names = [names];
-    }
-    if (!this.names[0]) throw new Error("No command names set.");
+    this.name = name;
     this.fn = fn;
-    if (!this.fn)
-      throw new Error("Where is the function you want to execute bro?");
-    this.reqs = {};
-    if (reqs) {
-      if (reqs.custom) {
-        this.reqs.custom = reqs.custom;
-      }
-    }
-    if (options?.description) {
-      this.description = options?.description;
-    }
-    if (options?.expectedArguments) {
-      this.expectedArguments = options?.expectedArguments;
+    this.reqs = reqs || {};
+    this.description = "A command with no description!";
+    if (options) {
+      this.options = options;
+      this.description = options.description;
     }
   }
 
   async checkPermissions(
-    message: Eris.Message,
-    args: string[],
+    interaction: CommandInteraction,
     client: Client
   ): Promise<boolean> {
-    return enoughReqs(this.reqs, message, args, client);
+    return enoughReqs(this.reqs, interaction, client);
   }
 
   async execute(
-    message: Eris.Message,
-    args: string[],
+    interaction: CommandInteraction,
     client: Client
   ): Promise<boolean> {
-    if (!(await this.checkPermissions(message, args, client))) return false;
+    if (!(await this.checkPermissions(interaction, client))) return false;
 
-    this.fn(message, args, client);
+    void this.fn(interaction, client);
 
     return true;
   }

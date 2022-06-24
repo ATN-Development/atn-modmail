@@ -1,9 +1,10 @@
-import { ComponentInteraction } from "./ComponentInteraction";
+import { ComponentInteraction } from "eris";
 import { Client } from "./Client";
 
-export interface ComponentEventFn {
-  (interaction: ComponentInteraction, client: Client): Promise<void> | void;
-}
+export type ComponentEventFn = (
+  interaction: ComponentInteraction,
+  client: Client
+) => Promise<void> | void;
 
 export interface ComponentEventReqs {
   custom?(
@@ -19,12 +20,7 @@ export default class ComponentEvent {
   constructor(name: string, fn: ComponentEventFn, reqs?: ComponentEventReqs) {
     this.name = name;
     this.fn = fn;
-    this.reqs = {};
-    if (reqs) {
-      if (reqs.custom) {
-        this.reqs.custom = reqs.custom;
-      }
-    }
+    this.reqs = reqs ?? {};
   }
 
   async checkPermissions(
@@ -39,7 +35,7 @@ export default class ComponentEvent {
     client: Client
   ): Promise<boolean> {
     if (!(await this.checkPermissions(interaction, client))) return false;
-    this.fn(interaction, client);
+    void this.fn(interaction, client);
 
     return true;
   }
@@ -49,9 +45,7 @@ export default class ComponentEvent {
     interaction: ComponentInteraction,
     client: Client
   ) {
-    const { custom } = reqs;
-
-    if (custom && !(await custom(interaction, client))) {
+    if (reqs.custom && !(await reqs.custom(interaction, client))) {
       return false;
     }
 

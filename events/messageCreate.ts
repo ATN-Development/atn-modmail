@@ -4,10 +4,13 @@ import Eris, { GuildTextableChannel, TextableChannel, TextChannel } from "eris";
 import fs from "fs";
 import path from "path";
 
-export default new Event("messageCreate", async (message, client) => {
+export const event = new Event("messageCreate", async (client, message) => {
   if ((message.channel as TextableChannel).type !== undefined) return;
 
   const guild = client.guilds.find((g) => g.id === config.GuildID);
+
+  if (!guild) return;
+
   const channel = guild?.channels
     .filter((ch) => ch.type === 0)
     .find((channel) => (channel as TextChannel).topic === message.author.id);
@@ -16,7 +19,7 @@ export default new Event("messageCreate", async (message, client) => {
   );
   if (message.author.bot) return;
   if (message.content.length > 2048)
-    return message.addReaction(config.CrossEmoji);
+    return void message.addReaction(config.CrossEmoji);
 
   if (!channel) {
     const madeChannel = await guild?.createChannel(
@@ -28,13 +31,13 @@ export default new Event("messageCreate", async (message, client) => {
         permissionOverwrites: [
           {
             id: guild.id,
-            type: Eris.Constants.PermissionOverwriteTypes["ROLE"],
+            type: Eris.Constants.PermissionOverwriteTypes.ROLE,
             deny: 1024,
             allow: 0,
           },
           {
             id: config.ModeratorRoleID,
-            type: Eris.Constants.PermissionOverwriteTypes["ROLE"],
+            type: Eris.Constants.PermissionOverwriteTypes.ROLE,
             allow: 1024,
             deny: 0,
           },
@@ -119,20 +122,20 @@ export default new Event("messageCreate", async (message, client) => {
 
     await message.addReaction(config.TickEmoji);
 
-    let webhooks = await (logsChannel as GuildTextableChannel).getWebhooks();
+    const webhooks = await (logsChannel as GuildTextableChannel).getWebhooks();
 
     if (!webhooks[0]) {
       const createdWebhook = await (
         logsChannel as GuildTextableChannel
       ).createWebhook({
         avatar: Buffer.from(
-          (message.channel as GuildTextableChannel).guild?.iconURL ?? ""
+          (message.channel as GuildTextableChannel).guild.iconURL ?? ""
         ).toString("base64"),
         name: "ModMail Logs",
       });
       webhooks.push(createdWebhook);
     }
-    await client.executeWebhook(webhooks[0].id, webhooks[0].token!, {
+    await client.executeWebhook(webhooks[0].id, webhooks[0].token ?? "", {
       allowedMentions: {
         everyone: false,
         roles: false,
@@ -192,5 +195,5 @@ export default new Event("messageCreate", async (message, client) => {
       );
     }
   }
-  await message.addReaction(config.TickEmoji);
+  return void message.addReaction(config.TickEmoji);
 });

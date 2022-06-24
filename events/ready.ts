@@ -1,6 +1,6 @@
 import { Event } from "../utils/Event";
 
-export default new Event(
+export const event = new Event(
   "ready",
   () => {
     console.log(`Ready!`);
