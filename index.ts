@@ -12,7 +12,7 @@ const client = new Client({
 	autoreconnect: true,
 	getAllUsers: true,
 	token: config.Token,
-	intents: ["guilds", "guildMembers", "guildMessages"],
+	intents: ["directMessages", "guilds", "guildMembers", "guildMessages"],
 });
 
 client.addEvents(path.join(__dirname, "events"));
