@@ -5,119 +5,149 @@ import Eris from "eris";
 import fs from "fs";
 import path from "path";
 
-export default new Command(
-  "snippet",
-  async (message, args, client) => {
-    if (args.length < 1) {
-      let snippetToSend: string[] = [];
-      for (const snippet in snippets) {
-        snippetToSend.push(snippet);
-      }
+export interface SlashOption {
+  name: string;
+  value: string;
+}
 
-      await message.channel.createMessage({
-        embed: {
-          title: "ModMail Snippets",
-          description: snippetToSend.join(", "),
-          fields: [
-            {
-              name: "How to use snippets?",
-              value: `Use \`${config.Prefix}snippet [SnippetName]\` to run a snippet in a ModMail.`,
-              inline: true,
-            },
-          ],
-        },
-      });
-    } else {
+const slashCommandOptions: SlashOption[] = [];
+
+for (const snippet in snippets) {
+  slashCommandOptions.push({
+    name: snippet,
+    value: snippet,
+  });
+}
+
+export const command = new Command(
+  "snippet",
+  async (interaction, client) => {
+    try {
+      await interaction.acknowledge();
+      const guild = client.guilds.get(interaction.guildID ?? "");
+      const channel = guild?.channels.get(interaction.channel.id);
+      const member = guild?.members.get(
+        (channel as Eris.TextChannel).topic ?? ""
+      );
+      const user = client.users.get(member?.user.id ?? "");
+      const dm = await user?.getDMChannel();
+
+      let snippetToSend = "";
+
       if (
-        (message.channel as Eris.GuildTextableChannel).parentID !==
-          config.ModMailCategoryID ||
-        message.channel.id === config.ModMailLogID
+        !interaction.data.options ||
+        interaction.data.options[0].type !==
+          Eris.Constants["ApplicationCommandOptionTypes"]["STRING"]
       ) {
-        message.channel.createMessage(
-          "Please use the command in a ModMail channel."
-        );
         return;
       }
 
-      const member = (
-        message.channel as Eris.GuildTextableChannel
-      ).guild.members.find(
-        (m) => m.id === (message.channel as Eris.TextChannel).topic
-      );
-      const user = client.users.get(member?.id ?? "");
-      const dm = await user?.getDMChannel();
-      let snippetToSend = "";
-
       for (let i = 0; i < Object.keys(snippets).length; i++) {
-        if (args[0].toLowerCase() === Object.keys(snippets)[i]) {
+        if (
+          interaction.data.options !== undefined &&
+          interaction.data.options[0].value?.toLowerCase() ===
+            Object.keys(snippets)[i]
+        ) {
           snippetToSend = Object.entries(snippets)[i][1];
         }
       }
 
-      if (snippetToSend.length < 1) {
-        message.channel.createMessage("Please specify a valid snippet.");
+      if (!snippetToSend.length) {
+        void interaction.createMessage({
+          content: "Please setup at least a snippet for the bot",
+          flags: Eris.Constants["MessageFlags"]["EPHEMERAL"],
+        });
         return;
       }
 
       fs.appendFile(
-        path.join(__dirname, "..", "transcripts", `${user?.id}.txt`),
-        `\n${message.author.username}#${message.author.discriminator}: ${snippetToSend}`,
+        path.join(__dirname, "..", "transcripts", `${user?.id ?? ""}.txt`),
+        `\n${interaction.member?.user.username ?? "Unknown User"}#${
+          interaction.member?.user.discriminator ?? "0000"
+        }: ${snippetToSend}`,
         (err) => {
           if (err) throw err;
         }
       );
 
+      const interactionAuthor = client.users.get(
+        interaction.member?.user.id ?? ""
+      );
+
       await dm?.createMessage({
         embed: {
           title: "Staff Team",
-          description: snippetToSend,
-          color: config.DefaultColor,
-          footer: {
-            text:
-              (message.channel as Eris.GuildTextableChannel).guild.name +
-              " Staff",
-            icon_url:
-              (message.channel as Eris.GuildTextableChannel).guild.iconURL ??
-              undefined,
-          },
-        },
-      });
-
-      await message.delete();
-      await message.channel.createMessage({
-        embed: {
-          title: message.author.username,
           description: snippetToSend
             .replace(new RegExp(/{{userid}}/, "g"), user?.id ?? "")
             .replace(new RegExp(/{{usermention}}/, "g"), user?.mention ?? "")
             .replace(
               new RegExp(/{{usertag}}/, "g"),
-              `${user?.username}#${user?.discriminator}`
+              `${user?.username ?? "Unknown user"}#${
+                user?.discriminator ?? "0000"
+              }`
             ),
+          color: config.DefaultColor,
           footer: {
-            text: "Staff Reply",
-            icon_url: message.author.avatarURL,
+            text: `${guild?.name ?? "Unknown Guild"} Staff`,
+            icon_url: guild?.iconURL ?? undefined,
           },
         },
       });
+
+      void interaction.createFollowup({
+        embeds: [
+          {
+            title: interactionAuthor?.username,
+            description: snippetToSend,
+            footer: {
+              text: "Staff Reply",
+              icon_url: interactionAuthor?.avatarURL,
+            },
+          },
+        ],
+      });
+      return;
+    } catch (err) {
+      console.log(`Error: ${(err as Error).message}`);
     }
   },
   {
-    custom: (message) => {
-      if (message.channel.type !== 0) {
+    custom: (interaction, client) => {
+      const guild = client.guilds.get(interaction.guildID ?? "");
+      const channel = guild?.channels.get(interaction.channel.id);
+      if (!interaction.member?.roles.includes(config.ModeratorRoleID)) {
+        void interaction.createMessage({
+          content: "You must be a Moderator to use this command.",
+          flags: Eris.Constants["MessageFlags"]["EPHEMERAL"],
+        });
         return false;
-      } else {
-        if (!message.member?.roles.includes(config.ModeratorRoleID)) {
-          message.channel.createMessage(
-            "You must be a Moderator to use this command."
-          );
-          return false;
-        }
-        return true;
       }
+
+      if (
+        channel?.parentID !== config.ModMailCategoryID ||
+        channel.id === config.ModMailLogID
+      ) {
+        void interaction.createMessage({
+          content: "You cannot run this command outside of a ModMail channel.",
+          flags: Eris.Constants["MessageFlags"]["EPHEMERAL"],
+        });
+        return false;
+      }
+
+      return true;
     },
   },
   {
     description: "Reply to a ModMail ticket with a premade snippet message.",
+    default_permission: true,
+    options: [
+      {
+        type: 3,
+        name: "snippet",
+        description: "The snippet you want to send.",
+        choices: slashCommandOptions,
+        required: true,
+      },
+    ],
   }
 );

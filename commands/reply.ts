@@ -1,115 +1,100 @@
 import Eris from "eris";
-import config from "../config";
-import { Command } from "../utils/Command";
 import fs from "fs";
 import path from "path";
+import config from "../config";
+import { Command } from "../utils/Command";
 
-export default new Command(
-  ["reply", "r"],
-  async (message, args, client) => {
-    const member = (
-      message.channel as Eris.GuildTextableChannel
-    ).guild.members.find(
-      (m) => m.id === (message.channel as Eris.TextChannel).topic
-    );
-    const user = client.users.get(member?.id ?? "");
-    const dm = await user?.getDMChannel();
-    if (message.attachments.length > 0) {
+export const command = new Command(
+  "reply",
+  async (interaction, client) => {
+    try {
+      await interaction.acknowledge();
+      const guild = client.guilds.get(interaction.guildID ?? "");
+      const channel = guild?.channels.get(interaction.channel.id);
+      const user = client.users.get((channel as Eris.TextChannel).topic ?? "");
+      const dm = await user?.getDMChannel();
+
+      if (
+        !interaction.data.options ||
+        interaction.data.options[0].type !==
+          Eris.Constants["ApplicationCommandOptionTypes"]["STRING"]
+      ) {
+        return;
+      }
       fs.appendFile(
-        path.join(__dirname, "..", "transcripts", `${user?.id}.txt`),
-        `\n${message.author.username}#${
-          message.author.discriminator
-        }: ${args.join(" ")}\nMessage attachments: ${
-          message.attachments[0].url
+        path.join(__dirname, "..", "transcripts", `${user?.id ?? ""}.txt`),
+        `\n${interaction.member?.user.username ?? "Unknown User"}#${
+          interaction.member?.user.discriminator ?? "0000"
+        }: ${
+          interaction.data.options
+            ? interaction.data.options[0].value ?? ""
+            : ""
         }`,
         (err) => {
-          if (err) throw err;
+          if (err) console.error(`Error: ${err.message}`);
         }
       );
+
       await dm?.createMessage({
         embed: {
           title: "Staff Team",
-          description: args.join(" "),
+          description: interaction.data.options
+            ? interaction.data.options[0].value
+            : "",
           color: config.DefaultColor,
           footer: {
-            text:
-              (message.channel as Eris.GuildTextableChannel).guild.name +
-              " Staff",
-            icon_url:
-              (message.channel as Eris.GuildTextableChannel).guild.iconURL ??
-              undefined,
-          },
-          image: {
-            url: message.attachments[0].url,
+            text: `${guild?.name ?? "Unknown Guild"} Staff`,
+            icon_url: guild?.iconURL ?? undefined,
           },
         },
       });
-    } else {
-      fs.appendFile(
-        path.join(__dirname, "..", "transcripts", `${user?.id}.txt`),
-        `\n${message.author.username}#${
-          message.author.discriminator
-        }: ${args.join(" ")}`,
-        (err) => {
-          if (err) throw err;
-        }
-      );
-      await dm?.createMessage({
-        embed: {
-          title: "Staff Team",
-          description: args.join(" "),
-          color: config.DefaultColor,
-          footer: {
-            text:
-              (message.channel as Eris.GuildTextableChannel).guild.name +
-              " Staff",
-            icon_url:
-              (message.channel as Eris.GuildTextableChannel).guild.iconURL ??
-              undefined,
+
+      await interaction.createFollowup({
+        embeds: [
+          {
+            title: interaction.member?.user.username ?? "Unknown User",
+            description: interaction.data.options
+              ? interaction.data.options[0].value
+              : "",
+            color: config.DefaultColor,
+            footer: {
+              text: "Staff Reply",
+              icon_url: user?.avatarURL,
+            },
           },
-        },
+        ],
       });
+    } catch (err) {
+      console.log(`Error: ${(err as Error).message}`);
     }
-    await message.delete();
-    await message.channel.createMessage({
-      embed: {
-        title: message.author.username,
-        description: args.join(" "),
-        image: message.attachments.length
-          ? {
-              url: message.attachments[0].url,
-            }
-          : undefined,
-        footer: {
-          text: "Staff Reply",
-          icon_url: message.author.avatarURL,
-        },
-      },
-    });
   },
   {
-    custom: (message, args) => {
-      if (message.channel.type !== 0) {
+    custom: (interaction, client) => {
+      const guild = client.guilds.get(interaction.guildID ?? "");
+      const channel = guild?.channels.get(interaction.channel.id);
+      if (
+        channel?.parentID !== config.ModMailCategoryID ||
+        interaction.channel.id === config.ModMailLogID
+      ) {
+        void interaction.createMessage({
+          content: "Please use the command in a ModMail channel.",
+          flags: Eris.Constants["MessageFlags"]["EPHEMERAL"],
+        });
         return false;
-      } else {
-        if (
-          message.channel.parentID !== config.ModMailCategoryID ||
-          message.channel.id === config.ModMailLogID
-        ) {
-          message.channel.createMessage(
-            "Please use the command in a ModMail channel."
-          );
-          return false;
-        }
-        if (args.length < 1) {
-          message.channel.createMessage("Please specify a text to send.");
-          return false;
-        }
-        return true;
       }
+      return true;
     },
   },
   {
-    description: "Reply to a ModMail ticket.",
+    options: [
+      {
+        type: 3,
+        name: "message",
+        description: "The message you want to send.",
+        required: true,
+      },
+    ],
+    default_permission: true,
+    description: "Reply to a ModMail thread.",
   }
 );

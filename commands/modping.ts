@@ -1,38 +1,49 @@
+import { Constants } from "eris";
 import config from "../config";
 import { Command } from "../utils/Command";
 
-export default new Command(
-  ["modping", "mp"],
-  async (message) => {
-    if (message.member?.roles.includes(config.ModPingRoleID)) {
-      await message.member?.removeRole(config.ModPingRoleID);
-      await message.channel.createMessage(
-        "Successfully removed the ModMail Ping role."
-      );
-    } else {
-      await message.member?.addRole(config.ModPingRoleID);
-      await message.channel.createMessage(
-        "Successfully added the ModMail Ping role."
-      );
+export const command = new Command(
+  "modping",
+  async (interaction) => {
+    try {
+      await interaction.createMessage({
+        flags: Constants["MessageFlags"]["EPHEMERAL"],
+        content: "Click the button below to add/remove the ModPing role!",
+        components: [
+          {
+            type: 1,
+            components: [
+              {
+                type: Constants["ComponentTypes"]["BUTTON"],
+                label: "ModPing Role",
+                style: interaction.member?.roles.includes(config.ModPingRoleID)
+                  ? 1
+                  : 2,
+                custom_id: "modpingrole_button",
+                disabled: false,
+              },
+            ],
+          },
+        ],
+      });
+    } catch (err) {
+      console.log(`Error: ${(err as Error).message}`);
     }
   },
   {
-    custom: (message) => {
-      if (message.channel.type !== 0) {
+    custom: (interaction) => {
+      if (!interaction.member?.roles.includes(config.ModeratorRoleID)) {
+        void interaction.createMessage({
+          content: "Only moderators can run this command.",
+          flags: Constants["MessageFlags"]["EPHEMERAL"],
+        });
         return false;
       } else {
-        if (!message.member?.roles.includes(config.ModeratorRoleID)) {
-          message.channel.createMessage(
-            "You must be a Moderator to use this command."
-          );
-          return false;
-        }
         return true;
       }
     },
   },
   {
-    description:
-      "Get the ModPing role to get notified whenever a ticket gets opened.",
+    description: "Get notified whenever a ModMail thread gets opened.",
   }
 );

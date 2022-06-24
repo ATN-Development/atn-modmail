@@ -1,15 +1,21 @@
 import { Command } from "../utils/Command";
 
-export default new Command(
+export const command = new Command(
   "ping",
-  (message) => {
-    message.channel.createMessage(
-      `Pong! My latency is \`${Date.now() - message.createdAt}\` ms.`
-    );
+  async (interaction) => {
+    try {
+      await interaction.createMessage({
+        content: `Pong! My latency is \`${
+          Date.now() - interaction.createdAt
+        }\`ms.`,
+      });
+    } catch (err) {
+      console.log(`Error: ${(err as Error).message}`);
+    }
   },
   {
-    custom: (message) => {
-      if (message.channel.type !== 0) {
+    custom: (interaction) => {
+      if (!interaction.guildID) {
         return false;
       } else {
         return true;
@@ -17,6 +23,7 @@ export default new Command(
     },
   },
   {
-    description: "Check the bot's latency.",
+    description: "Get latency of the bot!",
+    default_permission: true,
   }
 );
