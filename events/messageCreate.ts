@@ -75,12 +75,17 @@ export const event = new Event("messageCreate", async (client, message) => {
 				embed: {
 					title: "New Modmail",
 					description: message.content,
+					fields: [
+						{
+							name: "Attachments",
+							value: message.attachments
+								.map((a, index) => `${index + 1}. [Attachment URL](${a.url})`)
+								.join("\n"),
+						},
+					],
 					footer: {
 						text: `${message.author.username}#${message.author.discriminator}`,
 						icon_url: message.author.avatarURL,
-					},
-					image: {
-						url: message.attachments[0].url,
 					},
 				},
 				allowedMentions: {
@@ -91,7 +96,11 @@ export const event = new Event("messageCreate", async (client, message) => {
 			});
 			fs.appendFile(
 				path.join(__dirname, "..", "transcripts", `${message.author.id}.txt`),
-				`${message.author.username}#${message.author.discriminator}: ${message.content}\nMessage attachments: ${message.attachments[0].url}`,
+				`${message.author.username}#${message.author.discriminator}: ${
+					message.content
+				}\nMessage attachments: ${message.attachments
+					.map((a, index) => `${index + 1}. ${a.url}`)
+					.join("\n")}`,
 				(err) => {
 					if (err) throw err;
 				}
@@ -163,14 +172,23 @@ export const event = new Event("messageCreate", async (client, message) => {
 						text: `${message.author.username}#${message.author.discriminator}`,
 						icon_url: message.author.avatarURL,
 					},
-					image: {
-						url: message.attachments[0].url,
-					},
+					fields: [
+						{
+							name: "Attachments",
+							value: message.attachments
+								.map((a, index) => `${index + 1}. [Attachment URL](${a.url})`)
+								.join("\n"),
+						},
+					],
 				},
 			});
 			fs.appendFile(
 				path.join(__dirname, "..", "transcripts", `${message.author.id}.txt`),
-				`\n${message.author.username}#${message.author.discriminator}: ${message.content}\nMessage attachments: ${message.attachments[0].url}`,
+				`\n${message.author.username}#${message.author.discriminator}: ${
+					message.content
+				}\nMessage attachments: ${message.attachments
+					.map((a, index) => `${index + 1}. ${a.url}`)
+					.join("\n")}`,
 				(err) => {
 					if (err) throw err;
 				}
