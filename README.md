@@ -34,7 +34,7 @@
 
 # Overview
 
-ATN ModMail is an open source ModMail bot made by Eight∞💔. This modmail is
+ATN ModMail is an open source ModMail bot made by NotReallyEight. This modmail is
 completely customizable and a very easy to use bot. It doesn't require coding
 knowledge also except just configuring certain values.
 
@@ -58,7 +58,7 @@ When using the bot, you must have done the following:
 
 Configure the bot settings by making changes in `config.example.ts` and
 `snippets.example.ts`. After configuring, change the file names to `config.ts`
-and `snippets.ts` and then type in `npm run start`in [terminal\*](#notes) where
+and `snippets.ts` and then type in `npm install` and finally `npm run start`in [terminal\*](#notes) where
 **location must be the bot directory**.
 
 If you still experience issues, feel free to join the
