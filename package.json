@@ -4,7 +4,7 @@
 	"description": "A modmail bot for ATN Server.",
 	"main": "dist/index.js",
 	"scripts": {
-		"start": "npm install && npm run build && node --enable-source-maps .",
+		"start": "npm run build && node --enable-source-maps .",
 		"test": "npm run lint && tsc --noEmit && npm run prettier",
 		"build": "tsc",
 		"lint": "eslint . --fix",
